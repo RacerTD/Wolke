@@ -5,12 +5,19 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : AbilityController
 {
+    [SerializeField] private Transform cameraTransform;
+
     protected override void Start()
     {
         GameManager.Instance.PlayerController = this;
     }
 
     protected override void Update()
+    {
+
+    }
+
+    public void HandleViewInput(InputAction.CallbackContext context)
     {
 
     }
@@ -22,7 +29,7 @@ public class PlayerController : AbilityController
     public virtual void OnInputDeviceChanged(PlayerInput input)
     {
         Debug.Log($"Input device changed");
-        foreach(PlayerAbility playerAbility in Abilities)
+        foreach (PlayerAbility playerAbility in Abilities)
         {
             playerAbility.OnInputDeviceChanged(input);
         }
