@@ -61,7 +61,7 @@ public class PlayerController : AbilityController
             {
                 RaycastHit[] hits = Physics.RaycastAll(cameraTransform.position, GenerateShootDirection(), 100f, particleLayerMask);
 
-                hits = hits.OrderBy(h => (h.point - transform.position).magnitude).ToArray();
+                hits = hits.OrderBy(h => (h.point - cameraTransform.position).magnitude).ToArray();
 
                 if (hits.Length > 0)
                 {
