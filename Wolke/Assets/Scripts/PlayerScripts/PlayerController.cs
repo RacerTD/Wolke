@@ -1,18 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.VFX;
 
 public class PlayerController : AbilityController
 {
+    [Header("Camera")]
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Camera controlledCamera;
+
+    [Header("Particles")]
     [SerializeField] [Tooltip("Particles per second")] private float shootRate = 100f;
-    private InputAction.CallbackContext shootInputAction;
     [SerializeField] private float particleSpread = 10f;
     [SerializeField] private LayerMask particleLayerMask;
     [SerializeField] private VisualEffect singleParticleSystem;
+
+    [Header("View")]
+    [SerializeField] private float viewSpeed = 2f;
+    private InputAction.CallbackContext shootInputAction;
 
     protected override void Start()
     {
@@ -21,6 +28,7 @@ public class PlayerController : AbilityController
 
     protected override void Update()
     {
+        HandleView();
         base.Update();
     }
 
@@ -30,6 +38,11 @@ public class PlayerController : AbilityController
     }
 
     public void HandleViewInput(InputAction.CallbackContext context)
+    {
+
+    }
+
+    private void HandleView()
     {
 
     }
@@ -47,6 +60,8 @@ public class PlayerController : AbilityController
             for (int i = 0; i < shootRate * Time.fixedDeltaTime; i++)
             {
                 RaycastHit[] hits = Physics.RaycastAll(cameraTransform.position, GenerateShootDirection(), 100f, particleLayerMask);
+
+                hits = hits.OrderBy(h => (h.point - transform.position).magnitude).ToArray();
 
                 if (hits.Length > 0)
                 {
