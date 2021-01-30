@@ -16,10 +16,11 @@ public class PlayerController : AbilityController
     [SerializeField] private float particleSpread = 10f;
     [SerializeField] private LayerMask particleLayerMask;
     [SerializeField] private VisualEffect singleParticleSystem;
+    private InputAction.CallbackContext shootInputAction;
 
     [Header("View")]
     [SerializeField] private float viewSpeed = 2f;
-    private InputAction.CallbackContext shootInputAction;
+    private InputAction.CallbackContext viewInputAction;
 
     protected override void Start()
     {
@@ -28,23 +29,27 @@ public class PlayerController : AbilityController
 
     protected override void Update()
     {
+        HandleParticleShoot();
         HandleView();
         base.Update();
     }
 
     private void FixedUpdate()
     {
-        HandleParticleShoot();
+        //HandleParticleShoot();
     }
 
     public void HandleViewInput(InputAction.CallbackContext context)
     {
-
+        viewInputAction = context;
     }
 
     private void HandleView()
     {
-
+        if (!viewInputAction.canceled)
+        {
+            //controlledCamera.transform.localRotation = Quaternion.Euler()
+        }
     }
 
     public void HandleParticleShootInput(InputAction.CallbackContext context)
@@ -55,9 +60,13 @@ public class PlayerController : AbilityController
     private void HandleParticleShoot()
     {
         if ((shootInputAction.performed || shootInputAction.started) && singleParticleSystem != null)
+        //if (Time.frameCount % 5 == 1)
         {
+
+            List<Vector3> temp = new List<Vector3>();
+
             //Debug.Log(shootRate * Time.deltaTime);
-            for (int i = 0; i < shootRate * Time.fixedDeltaTime; i++)
+            for (int i = 0; i < shootRate * Time.deltaTime; i++)
             {
                 RaycastHit[] hits = Physics.RaycastAll(cameraTransform.position, GenerateShootDirection(), 100f, particleLayerMask);
 
@@ -65,11 +74,14 @@ public class PlayerController : AbilityController
 
                 if (hits.Length > 0)
                 {
+                    temp.Add(hits[0].point);
                     //Debug.Log(hits[0].point);
-                    singleParticleSystem.SetVector3("ParticlePos", hits[0].point);
-                    singleParticleSystem.SendEvent("CreateParticle");
+                    //singleParticleSystem.SetVector3("ParticlePos", hits[0].point);
+                    //singleParticleSystem.SendEvent("CreateParticle");
                 }
             }
+
+            ParticleManager.Instance.GenerateParticles(temp);
         }
     }
 

@@ -44,7 +44,7 @@ public class GameManager : ManagerModule<GameManager>
 
     private void Start()
     {
-
+        //Application.targetFrameRate = 10;
     }
 
     private void Update()
