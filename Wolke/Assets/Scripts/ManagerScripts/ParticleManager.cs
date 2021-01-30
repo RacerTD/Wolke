@@ -25,6 +25,7 @@ public class ParticleManager : ManagerModule<ParticleManager>
     }
     [SerializeField] private VisualEffect particleSystemPrefab;
     [SerializeField] private int maxParticlesInSystem;
+    [SerializeField] private int totalSpawnedParticles = 0;
     private Transform particleParent;
 
     public void Start()
@@ -54,6 +55,7 @@ public class ParticleManager : ManagerModule<ParticleManager>
     private void AddOneParticle(ParticleStruct particleStruct, Vector3 pos)
     {
         //Debug.Log(pos);
+        totalSpawnedParticles++;
         particleStruct.CurrentParticleAmount++;
         particleStruct.VFX.SetVector3("ParticlePos", pos);
         particleStruct.VFX.SendEvent("CreateParticle");
