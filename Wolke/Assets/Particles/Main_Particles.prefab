@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5101521272629521223}
   - component: {fileID: 5101521272629521224}
   m_Layer: 0
-  m_Name: Test
+  m_Name: Main_Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,7 +49,7 @@ VisualEffect:
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 0.01
+      - m_Value: 0.015
         m_Name: Size
         m_Overridden: 1
       - m_Value: 0.001
@@ -64,7 +64,7 @@ VisualEffect:
       - m_Value: 5
         m_Name: Cycles per Life
         m_Overridden: 1
-      - m_Value: 0.1
+      - m_Value: 0.25
         m_Name: Median Sample Time
         m_Overridden: 1
     m_Vector2f:
@@ -86,7 +86,7 @@ VisualEffect:
           m_Curve:
           - serializedVersion: 3
             time: 0
-            value: 0
+            value: 1
             inSlope: 0
             outSlope: 0
             tangentMode: 34
@@ -94,8 +94,8 @@ VisualEffect:
             inWeight: 0
             outWeight: 0.33333334
           - serializedVersion: 3
-            time: 0.3
-            value: 0
+            time: 0.27159932
+            value: 1
             inSlope: 0
             outSlope: 0
             tangentMode: 136
@@ -103,8 +103,8 @@ VisualEffect:
             inWeight: 0.33333334
             outWeight: 0.33333334
           - serializedVersion: 3
-            time: 0.5
-            value: 0.1
+            time: 0.2791667
+            value: 4
             inSlope: 0
             outSlope: 0
             tangentMode: 136
@@ -112,28 +112,19 @@ VisualEffect:
             inWeight: 0.33333334
             outWeight: 0.33333334
           - serializedVersion: 3
-            time: 0.7
-            value: 0
-            inSlope: -0.6666666
-            outSlope: -0.6666666
-            tangentMode: 136
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0.33333334
-          - serializedVersion: 3
-            time: 0.8
-            value: -0.1
+            time: 0.30416673
+            value: 1
             inSlope: 0
             outSlope: 0
-            tangentMode: 0
+            tangentMode: 136
             weightedMode: 0
             inWeight: 0.33333334
             outWeight: 0.33333334
           - serializedVersion: 3
             time: 1
-            value: 0
-            inSlope: 0.50000006
-            outSlope: 0.50000006
+            value: 1
+            inSlope: 0
+            outSlope: 0
             tangentMode: 34
             weightedMode: 0
             inWeight: 0.33333334
@@ -143,21 +134,65 @@ VisualEffect:
           m_RotationOrder: 4
         m_Name: Curve
         m_Overridden: 1
+      - m_Value:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 0.0001
+            value: 0.4951955
+            inSlope: 0.0023891646
+            outSlope: 0.0023891646
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 0.78106546
+            value: 0.49581736
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 136
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: -1.7159637
+            outSlope: -1.7159637
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_Name: Alpha
+        m_Overridden: 1
     m_Gradient:
       m_Array:
       - m_Value:
           serializedVersion: 2
-          key0: {r: 4.4001822, g: 0, b: 1.3454182, a: 1}
-          key1: {r: 0, g: 0.60619754, b: 5.7891865, a: 1}
-          key2: {r: 0, g: 2.1450932, b: 2.941785, a: 0}
+          key0: {r: 2, g: 0, b: 0, a: 1}
+          key1: {r: 0.23626924, g: 0.4508014, b: 2.1777854, a: 1}
+          key2: {r: 0.6248781, g: 1.590401, b: 2.1027644, a: 0}
           key3: {r: 0, g: 0, b: 0, a: 0}
           key4: {r: 0, g: 0, b: 0, a: 0}
           key5: {r: 0, g: 0, b: 0, a: 0}
           key6: {r: 0, g: 0, b: 0, a: 0}
           key7: {r: 0, g: 0, b: 0, a: 0}
           ctime0: 0
-          ctime1: 13685
-          ctime2: 65535
+          ctime1: 4241
+          ctime2: 49151
           ctime3: 0
           ctime4: 0
           ctime5: 0
@@ -172,7 +207,7 @@ VisualEffect:
           atime6: 0
           atime7: 0
           m_Mode: 0
-          m_NumColorKeys: 2
+          m_NumColorKeys: 3
           m_NumAlphaKeys: 2
         m_Name: Color Gradient
         m_Overridden: 1
