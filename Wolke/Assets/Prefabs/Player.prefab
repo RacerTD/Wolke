@@ -162,7 +162,19 @@ MonoBehaviour:
         m_CallState: 2
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3259029817537132333}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: HandleMoveInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 226682a8-99ee-4d24-ad91-a75161eb71d0
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
@@ -220,14 +232,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 3259029819147358781}
   controlledCamera: {fileID: 3259029819147358778}
-  ShootRate: 10000
-  ParticleSpread: 100
-  particleLayerMask:
-    serializedVersion: 2
-    m_Bits: 823
-  singleParticleSystem: {fileID: 0}
-  viewSpeed: 0.31
-  moveSpeed: 2
+  shootRate: 4000
+  particleSpread: 50
+  viewSpeed: 0.3
+  moveSpeed: 5
+  isMoving: 0
   MoveVector: {x: 0, y: 0, z: 0}
   MoveShouldVector: {x: 0, y: 0, z: 0}
   accelerationSpeed: 5

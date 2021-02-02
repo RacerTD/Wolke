@@ -42,7 +42,7 @@ public class PlayerController : AbilityController
 
     [Header("Move")]
     [SerializeField] private float moveSpeed = 2f;
-    private InputAction.CallbackContext moveInputAction;
+    [SerializeField] private bool isMoving;
     private Vector2 moveInputVector = Vector2.zero;
     private Rigidbody physicsbody;
     public Vector3 MoveVector = Vector3.zero;
@@ -72,20 +72,22 @@ public class PlayerController : AbilityController
 
     public void HandleMoveInput(InputAction.CallbackContext context)
     {
-        moveInputAction = context;
+        isMoving = !context.canceled;
         moveInputVector = context.ReadValue<Vector2>();
     }
 
     private void HandleMove()
     {
-        if (!moveInputAction.canceled)
+        if (isMoving)
             MoveShouldVector = new Vector3(moveInputVector.x * moveSpeed, 0, moveInputVector.y * moveSpeed);
         else
             MoveShouldVector = Vector3.zero;
 
         MoveVector = Vector3.Lerp(MoveVector, MoveShouldVector, accelerationSpeed * Time.fixedDeltaTime);
 
-        physicsbody.MovePosition(transform.position + MoveVector);
+        transform.Translate(Vector3.RotateTowards(transform.position, MoveVector * Time.fixedDeltaTime, float.MaxValue, float.MaxValue));
+
+        //physicsbody.MovePosition(transform.position + MoveVector);
     }
 
     public void HandleViewInput(InputAction.CallbackContext context)

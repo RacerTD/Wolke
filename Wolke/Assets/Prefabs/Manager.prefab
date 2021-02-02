@@ -70,8 +70,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0dda046aff9df249ab0290e5b5be586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ParticleDebug: {fileID: 4142961355982659100, guid: 9a9b9514810011741b8e55f97dbc0e5d, type: 3}
-  EnableDebug: 0
+  particleDebug: {fileID: 4142961355982659100, guid: 9a9b9514810011741b8e55f97dbc0e5d, type: 3}
+  enableDebug: 0
   particlePool: []
   particleSystemPrefab: {fileID: 5101521272629521223, guid: 7abcdc07173220e438cc459650808cd1, type: 3}
   maxParticlesInSystem: 24000

@@ -94,7 +94,7 @@ public class ParticleManager : ManagerModule<ParticleManager>
 
     private void GenerateParticles(List<Vector3> particlePos)
     {
-        Debug.Log($"Particles this frame: {particlePos.Count()}");
+        //Debug.Log($"Particles this frame: {particlePos.Count()}");
 
         if (particlePos.Count() > particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem).ToList().Count())
         {
