@@ -67,10 +67,19 @@ VisualEffect:
       - m_Value: 0.25
         m_Name: Median Sample Time
         m_Overridden: 1
+      - m_Value: 0
+        m_Name: New float
+        m_Overridden: 0
+      - m_Value: 0
+        m_Name: Sample Time
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 0, y: -0.2, z: 0}
+        m_Name: UpPos
+        m_Overridden: 1
     m_Vector4f:
       m_Array: []
     m_Uint:
@@ -104,7 +113,7 @@ VisualEffect:
             outWeight: 0.33333334
           - serializedVersion: 3
             time: 0.2791667
-            value: 4
+            value: 5
             inSlope: 0
             outSlope: 0
             tangentMode: 136
@@ -178,28 +187,98 @@ VisualEffect:
           m_RotationOrder: 4
         m_Name: Alpha
         m_Overridden: 1
+      - m_Value:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0.2
+            inSlope: -2000.0001
+            outSlope: -2000.0001
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.0001
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 136
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_Name: Velocity
+        m_Overridden: 1
+      - m_Value:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 20
+            inSlope: -55.593487
+            outSlope: -55.593487
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.34176666
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 136
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_Name: Burst Scale
+        m_Overridden: 1
     m_Gradient:
       m_Array:
       - m_Value:
           serializedVersion: 2
           key0: {r: 2, g: 0, b: 0, a: 1}
-          key1: {r: 0.23626924, g: 0.4508014, b: 2.1777854, a: 1}
-          key2: {r: 0.6248781, g: 1.590401, b: 2.1027644, a: 0}
+          key1: {r: 0.08235294, g: 0.15686275, b: 0.7490196, a: 1}
+          key2: {r: 0.22352941, g: 0.5686275, b: 0.7490196, a: 0}
           key3: {r: 0, g: 0, b: 0, a: 0}
           key4: {r: 0, g: 0, b: 0, a: 0}
           key5: {r: 0, g: 0, b: 0, a: 0}
           key6: {r: 0, g: 0, b: 0, a: 0}
           key7: {r: 0, g: 0, b: 0, a: 0}
           ctime0: 0
-          ctime1: 4241
+          ctime1: 5397
           ctime2: 49151
           ctime3: 0
           ctime4: 0
           ctime5: 0
           ctime6: 0
           ctime7: 0
-          atime0: 5397
-          atime1: 58596
+          atime0: 0
+          atime1: 65535
           atime2: 0
           atime3: 0
           atime4: 0
