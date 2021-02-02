@@ -68,7 +68,7 @@ public class ParticleManager : ManagerModule<ParticleManager>
     {
         List<Vector3> temp = new List<Vector3>();
 
-        for (int i = 0; i < GameManager.Instance.PlayerController.ShootRate * Time.fixedDeltaTime; i++)
+        for (int i = 0; i < GameManager.Instance.PlayerController.ShootRate * Time.deltaTime; i++)
         {
             Vector3 shootDir = GenerateShootDirection();
 
