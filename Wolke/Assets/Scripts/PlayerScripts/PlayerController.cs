@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.VFX;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : AbilityController
 {
     [Header("Camera")]
@@ -13,81 +14,109 @@ public class PlayerController : AbilityController
 
     [Header("Particles")]
     [SerializeField] [Tooltip("Particles per second")] private float shootRate = 100f;
+    public float ShootRate
+    {
+        get => shootRate;
+        set
+        {
+            ParticleManager.Instance.ParticlesPerSecond = value;
+            shootRate = value;
+        }
+    }
     [SerializeField] private float particleSpread = 10f;
-    [SerializeField] private LayerMask particleLayerMask;
-    [SerializeField] private VisualEffect singleParticleSystem;
-    private InputAction.CallbackContext shootInputAction;
+    public float ParticleSpread
+    {
+        get => particleSpread;
+        set
+        {
+            ParticleManager.Instance.ParticleSpread = value;
+            particleSpread = value;
+        }
+    }
 
     [Header("View")]
     [SerializeField] private float viewSpeed = 2f;
+    private float rotationX = 0f;
     private InputAction.CallbackContext viewInputAction;
+    private Vector2 viewInputVector = Vector2.zero;
+
+    [Header("Move")]
+    [SerializeField] private float moveSpeed = 2f;
+    private InputAction.CallbackContext moveInputAction;
+    private Vector2 moveInputVector = Vector2.zero;
+    private Rigidbody physicsbody;
+    public Vector3 MoveVector = Vector3.zero;
+    public Vector3 MoveShouldVector = Vector3.zero;
+    [SerializeField] private float accelerationSpeed = 5f;
+
 
     protected override void Start()
     {
+        physicsbody = GetComponent<Rigidbody>();
         GameManager.Instance.PlayerController = this;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        ParticleManager.Instance.ParticlesPerSecond = shootRate;
     }
 
     protected override void Update()
     {
-        HandleParticleShoot();
         HandleView();
         base.Update();
     }
 
     private void FixedUpdate()
     {
-        //HandleParticleShoot();
+        HandleMove();
+    }
+
+    public void HandleMoveInput(InputAction.CallbackContext context)
+    {
+        moveInputAction = context;
+        moveInputVector = context.ReadValue<Vector2>();
+    }
+
+    private void HandleMove()
+    {
+        if (!moveInputAction.canceled)
+            MoveShouldVector = new Vector3(moveInputVector.x * moveSpeed, 0, moveInputVector.y * moveSpeed);
+        else
+            MoveShouldVector = Vector3.zero;
+
+        MoveVector = Vector3.Lerp(MoveVector, MoveShouldVector, accelerationSpeed * Time.fixedDeltaTime);
+
+        physicsbody.MovePosition(transform.position + MoveVector);
     }
 
     public void HandleViewInput(InputAction.CallbackContext context)
     {
         viewInputAction = context;
+        viewInputVector = context.ReadValue<Vector2>();
     }
 
     private void HandleView()
     {
         if (!viewInputAction.canceled)
         {
-            //controlledCamera.transform.localRotation = Quaternion.Euler()
+            transform.rotation = Quaternion.Euler(new Vector3(0f, viewInputVector.x * viewSpeed + transform.localRotation.eulerAngles.y, 0));
+            rotationX += -viewInputVector.y * viewSpeed;
+            rotationX = Mathf.Clamp(rotationX, -85, 85);
+            cameraTransform.localRotation = Quaternion.Euler(rotationX, 0, 0);
         }
+
+        Debug.DrawRay(controlledCamera.transform.position, controlledCamera.transform.forward, Color.red);
     }
 
     public void HandleParticleShootInput(InputAction.CallbackContext context)
     {
-        shootInputAction = context;
-    }
-
-    private void HandleParticleShoot()
-    {
-        if ((shootInputAction.performed || shootInputAction.started) && singleParticleSystem != null)
-        //if (Time.frameCount % 5 == 1)
+        if (context.canceled)
         {
-
-            List<Vector3> temp = new List<Vector3>();
-
-            //Debug.Log(shootRate * Time.deltaTime);
-            for (int i = 0; i < shootRate * Time.deltaTime; i++)
-            {
-                RaycastHit[] hits = Physics.RaycastAll(cameraTransform.position, GenerateShootDirection(), 100f, particleLayerMask);
-
-                hits = hits.OrderBy(h => (h.point - cameraTransform.position).magnitude).ToArray();
-
-                if (hits.Length > 0)
-                {
-                    temp.Add(hits[0].point);
-                    //Debug.Log(hits[0].point);
-                    //singleParticleSystem.SetVector3("ParticlePos", hits[0].point);
-                    //singleParticleSystem.SendEvent("CreateParticle");
-                }
-            }
-
-            ParticleManager.Instance.GenerateParticles(temp);
+            ParticleManager.Instance.SetParticleGeneratorState(false);
         }
-    }
-
-    private Vector3 GenerateShootDirection()
-    {
-        return ((cameraTransform.position + cameraTransform.forward * 1000).normalized) + new Vector3(Random.Range(particleSpread, -particleSpread) / 100, Random.Range(particleSpread, -particleSpread) / 100, Random.Range(particleSpread, -particleSpread) / 100);
+        else
+        {
+            ParticleManager.Instance.SetParticleGeneratorState(true);
+        }
     }
 
     /// <summary>
