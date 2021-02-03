@@ -100,8 +100,8 @@ public class PlayerController : AbilityController
     {
         if (!viewInputAction.canceled)
         {
-            transform.rotation = Quaternion.Euler(new Vector3(0f, viewInputVector.x * viewSpeed + transform.localRotation.eulerAngles.y, 0));
-            rotationX += -viewInputVector.y * viewSpeed;
+            transform.rotation = Quaternion.Euler(new Vector3(0f, viewInputVector.x * viewSpeed * Time.deltaTime + transform.localRotation.eulerAngles.y, 0));
+            rotationX += -viewInputVector.y * viewSpeed * Time.deltaTime;
             rotationX = Mathf.Clamp(rotationX, -85, 85);
             cameraTransform.localRotation = Quaternion.Euler(rotationX, 0, 0);
         }

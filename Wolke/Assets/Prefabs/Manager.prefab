@@ -78,4 +78,7 @@ MonoBehaviour:
   totalSpawnedParticles: 0
   particleLayerMask:
     serializedVersion: 2
-    m_Bits: 823
+    m_Bits: 887
+  particleBlockMask:
+    serializedVersion: 2
+    m_Bits: 64

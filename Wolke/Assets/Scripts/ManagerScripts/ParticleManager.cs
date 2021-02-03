@@ -15,7 +15,8 @@ public class ParticleManager : ManagerModule<ParticleManager>
     [SerializeField] private VisualEffect particleSystemPrefab;
     [SerializeField] private int maxParticlesInSystem;
     [SerializeField] private int totalSpawnedParticles = 0;
-    [SerializeField] private LayerMask particleLayerMask;
+    [SerializeField] [Tooltip("Everything the particles can hit")] private LayerMask particleLayerMask;
+    [SerializeField] [Tooltip("Everything particles can not stick to")] private LayerMask particleBlockMask;
 
     private float particlesPerSecond = 1000f;
     public float ParticlesPerSecond
@@ -44,6 +45,7 @@ public class ParticleManager : ManagerModule<ParticleManager>
     public void Start()
     {
         cam = Camera.main;
+        FillParticlePool(120);
     }
 
     public void Update()
@@ -72,7 +74,7 @@ public class ParticleManager : ManagerModule<ParticleManager>
         {
             Vector3 shootDir = GenerateShootDirection();
 
-            Debug.DrawRay(cam.transform.position, shootDir.normalized, Color.red, 0.25f);
+            //Debug.DrawRay(cam.transform.position, shootDir.normalized, Color.red, 0.25f);
 
             RaycastHit[] hits = Physics.RaycastAll(cam.transform.position, shootDir, 100f, particleLayerMask);
 
@@ -80,7 +82,12 @@ public class ParticleManager : ManagerModule<ParticleManager>
 
             if (hits.Length > 0)
             {
-                temp.Add(hits[0].point);
+                //Debug.Log(hits[0].collider.gameObject.IsInLayerMask(particleBlockMask));
+
+                if (!hits[0].collider.gameObject.IsInLayerMask(particleBlockMask))
+                {
+                    temp.Add(hits[0].point);
+                }
             }
         }
 
