@@ -73,7 +73,7 @@ public class EnemyController : AbilityController
 
     protected override void Start()
     {
-        enemyParticleSystem = GetComponent<VisualEffect>();
+        enemyParticleSystem = GetComponentInChildren<VisualEffect>();
         base.Start();
     }
 
