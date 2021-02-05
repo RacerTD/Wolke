@@ -12,6 +12,22 @@ public class ParticleManager : ManagerModule<ParticleManager>
 
     [Header("Particles")]
     [SerializeField] private List<ParticleStruct> particlePool = new List<ParticleStruct>();
+    private int particlePoolIndex = 0;
+    public int ParticlePoolIndex
+    {
+        get => particlePoolIndex;
+        set
+        {
+            if (value > particlePool.Count() - 1)
+            {
+                particlePoolIndex = 0;
+            }
+            else
+            {
+                particlePoolIndex = value;
+            }
+        }
+    }
     [SerializeField] private int maxParticlesInSystem;
     [SerializeField] private int totalSpawnedParticles = 0;
     [SerializeField] [Tooltip("Everything the particles can hit")] private LayerMask particleLayerMask;
@@ -61,6 +77,17 @@ public class ParticleManager : ManagerModule<ParticleManager>
         }
 
         ExecuteParticleQueue();
+
+        UpdateLivingParticleCounter();
+    }
+
+    private void UpdateLivingParticleCounter()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            particlePool[ParticlePoolIndex].CurrentParticleAmount = particlePool[ParticlePoolIndex].VFX.aliveParticleCount;
+            ParticlePoolIndex++;
+        }
     }
 
     /// <summary>
@@ -150,12 +177,12 @@ public class ParticleManager : ManagerModule<ParticleManager>
     {
         //Debug.Log($"Particles this frame: {particlePos.Count()}");
 
-        if (particlePos.Count() > particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem && p.ParticleSystemName == name).ToList().Count())
+        if (particlePos.Count() > particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem * 0.9f && p.ParticleSystemName == name).ToList().Count())
         {
-            FillParticlePool(particlePos.Count() - particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem && p.ParticleSystemName == name).ToList().Count(), name);
+            FillParticlePool(particlePos.Count() - particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem * 0.9f && p.ParticleSystemName == name).ToList().Count(), name);
         }
 
-        List<ParticleStruct> temp = particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem && p.ParticleSystemName == name).ToList();
+        List<ParticleStruct> temp = particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem * 0.9f && p.ParticleSystemName == name).ToList();
 
         for (int i = 0; i < temp.Count() && i < particlePos.Count(); i++)
         {
@@ -171,7 +198,7 @@ public class ParticleManager : ManagerModule<ParticleManager>
     private void AddOneParticle(ParticleStruct particleStruct, Vector3 pos)
     {
         totalSpawnedParticles++;
-        particleStruct.CurrentParticleAmount++;
+        //particleStruct.CurrentParticleAmount++;
         particleStruct.VFX.SetVector3("ParticlePos", pos);
         particleStruct.VFX.SendEvent("CreateParticle");
 
@@ -222,7 +249,7 @@ public class ParticleManager : ManagerModule<ParticleManager>
 }
 
 [System.Serializable]
-public struct ParticleStruct
+public class ParticleStruct
 {
     public VisualEffect VFX;
     public int CurrentParticleAmount;
