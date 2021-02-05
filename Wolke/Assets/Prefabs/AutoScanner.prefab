@@ -51,7 +51,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 887
   particleSpread: {x: 0, y: 1, z: 0}
-  particlesPerSecond: 1000
+  particlesPerSecond: 3000
 --- !u!1 &4121502779120732293
 GameObject:
   m_ObjectHideFlags: 0

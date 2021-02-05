@@ -73,7 +73,7 @@ MonoBehaviour:
   particleDebug: {fileID: 4142961355982659100, guid: 9a9b9514810011741b8e55f97dbc0e5d, type: 3}
   enableDebug: 0
   particlePool: []
-  maxParticlesInSystem: 24000
+  maxParticlesInSystem: 5000
   totalSpawnedParticles: 0
   particleLayerMask:
     serializedVersion: 2

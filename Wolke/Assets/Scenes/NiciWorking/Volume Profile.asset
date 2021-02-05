@@ -20,11 +20,11 @@ MonoBehaviour:
     min: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 4
+    m_Value: 7
     min: 0
   scatter:
     m_OverrideState: 1
-    m_Value: 0.66
+    m_Value: 0.7
     min: 0
     max: 1
   clamp:
@@ -33,7 +33,7 @@ MonoBehaviour:
     min: 0
   tint:
     m_OverrideState: 1
-    m_Value: {r: 0.21226418, g: 0.7918304, b: 1, a: 1}
+    m_Value: {r: 0.7877358, g: 0.94402987, b: 1, a: 1}
     hdr: 0
     showAlpha: 0
     showEyeDropper: 1
@@ -75,14 +75,14 @@ MonoBehaviour:
     min: -100
     max: 100
   colorFilter:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {r: 0.5058824, g: 1, b: 0.8293191, a: 1}
     hdr: 1
     showAlpha: 0
     showEyeDropper: 1
   hueShift:
     m_OverrideState: 1
-    m_Value: -10
+    m_Value: -5
     min: -180
     max: 180
   saturation:
@@ -144,7 +144,7 @@ MonoBehaviour:
   master:
     m_OverrideState: 1
     m_Value:
-      <length>k__BackingField: 5
+      <length>k__BackingField: 4
       m_Loop: 0
       m_ZeroValue: 0
       m_Range: 1
@@ -170,19 +170,10 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.44031832
-          value: 0.87078655
-          inSlope: 0.096271664
-          outSlope: 0.096271664
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 0.7427056
-          value: 0.8820225
-          inSlope: 0.1970216
-          outSlope: 0.1970216
+          time: 0.45945945
+          value: 0.9533679
+          inSlope: 0.3140778
+          outSlope: 0.3140778
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -190,8 +181,8 @@ MonoBehaviour:
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 1
-          outSlope: 1
+          inSlope: -0
+          outSlope: -0
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -362,6 +353,30 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+--- !u!114 &-4772467065894260399
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
+  m_Name: WhiteBalance
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  temperature:
+    m_OverrideState: 1
+    m_Value: -40
+    min: -100
+    max: 100
+  tint:
+    m_OverrideState: 1
+    m_Value: -85
+    min: -100
+    max: 100
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,6 +398,7 @@ MonoBehaviour:
   - {fileID: -4815290060278427391}
   - {fileID: 1493977952710382280}
   - {fileID: 8322790208826635608}
+  - {fileID: -4772467065894260399}
 --- !u!114 &1493977952710382280
 MonoBehaviour:
   m_ObjectHideFlags: 3
