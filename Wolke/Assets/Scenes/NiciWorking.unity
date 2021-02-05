@@ -382,7 +382,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3259029817537132333, guid: fab86e796cf61ba4dae6005f6cd226c9, type: 3}
       propertyPath: viewSpeed
-      value: 20
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3259029817537132333, guid: fab86e796cf61ba4dae6005f6cd226c9, type: 3}
       propertyPath: particleSpread
@@ -705,6 +705,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 312335049}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &351360411 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3942381327337706522, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
+  m_PrefabInstance: {fileID: 8418569464607470130}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &373864353
 GameObject:
   m_ObjectHideFlags: 0
@@ -991,6 +996,58 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 626761719}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &689271703
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 689271705}
+  - component: {fileID: 689271704}
+  m_Layer: 0
+  m_Name: EnemyCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &689271704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689271703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3724c943391fdc34a9754f0299c40a89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axisMovementMult: {x: 0, y: 20, z: 0}
+  axisPositions: {x: 0, y: 0, z: 0}
+  particleShootPoint: {fileID: 1564924234}
+  particleColliders:
+    serializedVersion: 2
+    m_Bits: 887
+  particleSpread: {x: 0, y: 1, z: 0}
+  particlesPerSecond: 1000
+--- !u!4 &689271705
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689271703}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.69, y: 1.4, z: -8.32}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1564924234}
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &703614540
 GameObject:
   m_ObjectHideFlags: 0
@@ -1523,6 +1580,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ed9864b59a8f3e4f8467b42cf9f87b5, type: 3}
+--- !u!1 &1564924233
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1564924234}
+  m_Layer: 0
+  m_Name: ParticleShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1564924234
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564924233}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 689271705}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1651848672
 GameObject:
   m_ObjectHideFlags: 0
@@ -1861,6 +1948,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 113739935, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
+      propertyPath: viewPoint
+      value: 
+      objectReference: {fileID: 351360411}
+    - target: {fileID: 113739935, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
+      propertyPath: forEnemyVisibleMask.m_Bits
+      value: 831
+      objectReference: {fileID: 0}
+    - target: {fileID: 992549289156488742, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 992549289156488742, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1101299800070101914, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1101299800070101914, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Name
+      value: DistanceToPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1101299800070101914, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1101299800070101914, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Overridden
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8418569464494652074, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -1875,7 +1994,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8418569464494652076, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.15
+      value: 0.43
       objectReference: {fileID: 0}
     - target: {fileID: 8418569464494652076, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1883,7 +2002,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8418569464494652076, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.47
+      value: -5.87
       objectReference: {fileID: 0}
     - target: {fileID: 8418569464494652076, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
       propertyPath: m_LocalRotation.w

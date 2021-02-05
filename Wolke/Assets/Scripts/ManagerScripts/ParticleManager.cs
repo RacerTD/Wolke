@@ -12,12 +12,12 @@ public class ParticleManager : ManagerModule<ParticleManager>
 
     [Header("Particles")]
     [SerializeField] private List<ParticleStruct> particlePool = new List<ParticleStruct>();
-    [SerializeField] private VisualEffect particleSystemPrefab;
     [SerializeField] private int maxParticlesInSystem;
     [SerializeField] private int totalSpawnedParticles = 0;
     [SerializeField] [Tooltip("Everything the particles can hit")] private LayerMask particleLayerMask;
     [SerializeField] [Tooltip("Everything particles can not stick to")] private LayerMask particleBlockMask;
 
+    #region PlayerParticles
     private float particlesPerSecond = 1000f;
     public float ParticlesPerSecond
     {
@@ -36,28 +36,61 @@ public class ParticleManager : ManagerModule<ParticleManager>
             particleSpread = Mathf.Clamp(value, 0f, float.MaxValue);
         }
     }
+    #endregion
 
     private Transform particleParent;
     private bool particleGeneratorActive = false;
     public void SetParticleGeneratorState(bool value) => particleGeneratorActive = value;
     private Camera cam;
+    [SerializeField] private List<ParticlePrefabStruct> particlePrefabs = new List<ParticlePrefabStruct>();
 
     public void Start()
     {
         cam = Camera.main;
-        FillParticlePool(120);
+        FillParticlePool(1, ParticleSystemName.Player);
     }
 
     public void Update()
     {
         UpdateParticleSystemPos();
 
+        //PlayerParticle Stuff
         if (particleGeneratorActive)
         {
-            GenerateParticles(GenerateParticlePositions());
+            AddParticlesToQueue(GenerateParticlePositions(), ParticleSystemName.Player);
+        }
+
+        ExecuteParticleQueue();
+    }
+
+    /// <summary>
+    /// Adds Particles to the correct particle queue
+    /// </summary>
+    /// <param name="positions"></param>
+    /// <param name="name"></param>
+    public void AddParticlesToQueue(List<Vector3> positions, ParticleSystemName name)
+    {
+        particlePrefabs.Single(p => p.ParticleSystemName == name).ParticleQueue.AddRange(positions);
+    }
+
+    /// <summary>
+    /// Sends all the particlequeues to the particle generator
+    /// </summary>
+    private void ExecuteParticleQueue()
+    {
+        foreach (ParticlePrefabStruct par in particlePrefabs)
+        {
+            if (par.ParticleQueue.Count() > 0)
+            {
+                GenerateParticles(par.ParticleQueue, par.ParticleSystemName);
+                par.ParticleQueue.Clear();
+            }
         }
     }
 
+    /// <summary>
+    /// Updates the positions of the particle systems, so they staay inside the cameraview
+    /// </summary>
     private void UpdateParticleSystemPos()
     {
         foreach (ParticleStruct par in particlePool)
@@ -66,6 +99,11 @@ public class ParticleManager : ManagerModule<ParticleManager>
         }
     }
 
+    #region PlayerParticles
+    /// <summary>
+    /// Generates a list of particles in random directions at the colliders around
+    /// </summary>
+    /// <returns></returns>
     private List<Vector3> GenerateParticlePositions()
     {
         List<Vector3> temp = new List<Vector3>();
@@ -94,21 +132,30 @@ public class ParticleManager : ManagerModule<ParticleManager>
         return temp;
     }
 
+    /// <summary>
+    /// Generates a random shoot direction
+    /// </summary>
+    /// <returns></returns>
     private Vector3 GenerateShootDirection()
     {
         return ((cam.transform.position + cam.transform.forward * 1000).normalized) + new Vector3(Random.Range(GameManager.Instance.PlayerController.ParticleSpread, -GameManager.Instance.PlayerController.ParticleSpread) / 100, Random.Range(GameManager.Instance.PlayerController.ParticleSpread, -GameManager.Instance.PlayerController.ParticleSpread) / 100, Random.Range(GameManager.Instance.PlayerController.ParticleSpread, -GameManager.Instance.PlayerController.ParticleSpread) / 100);
     }
+    #endregion
 
-    private void GenerateParticles(List<Vector3> particlePos)
+    /// <summary>
+    /// Tells the particle systems where to spawn new particles
+    /// </summary>
+    /// <param name="particlePos"></param>
+    public void GenerateParticles(List<Vector3> particlePos, ParticleSystemName name)
     {
         //Debug.Log($"Particles this frame: {particlePos.Count()}");
 
-        if (particlePos.Count() > particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem).ToList().Count())
+        if (particlePos.Count() > particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem && p.ParticleSystemName == name).ToList().Count())
         {
-            FillParticlePool(particlePos.Count() - particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem).ToList().Count());
+            FillParticlePool(particlePos.Count() - particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem && p.ParticleSystemName == name).ToList().Count(), name);
         }
 
-        List<ParticleStruct> temp = particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem).ToList();
+        List<ParticleStruct> temp = particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem && p.ParticleSystemName == name).ToList();
 
         for (int i = 0; i < temp.Count() && i < particlePos.Count(); i++)
         {
@@ -116,6 +163,11 @@ public class ParticleManager : ManagerModule<ParticleManager>
         }
     }
 
+    /// <summary>
+    /// Generates one particle in one particle system
+    /// </summary>
+    /// <param name="particleStruct">the particle system</param>
+    /// <param name="pos">the position of the particle</param>
     private void AddOneParticle(ParticleStruct particleStruct, Vector3 pos)
     {
         totalSpawnedParticles++;
@@ -129,25 +181,37 @@ public class ParticleManager : ManagerModule<ParticleManager>
         }
     }
 
-    private void FillParticlePool(int amount)
+    /// <summary>
+    /// Generates more particle systems
+    /// </summary>
+    /// <param name="amount"></param>
+    private void FillParticlePool(int amount, ParticleSystemName particleSystemName)
     {
         for (int i = 0; i < amount; i++)
         {
-            GenerateParticleStruct();
+            GenerateParticleStruct(particleSystemName);
         }
     }
 
-    private void GenerateParticleStruct()
+    /// <summary>
+    /// Generates one particle system with the relevant struct around it
+    /// </summary>
+    private void GenerateParticleStruct(ParticleSystemName particleSystemName)
     {
-        VisualEffect effect = Instantiate(particleSystemPrefab, Vector3.zero, Quaternion.identity);
+        VisualEffect effect = Instantiate(particlePrefabs.Single(p => p.ParticleSystemName == particleSystemName).VFXPrefab, Vector3.zero, Quaternion.identity);
+
         effect.transform.SetParent(transform);
         effect.transform.localPosition = Vector3.zero;
 
-        ParticleStruct particleStruct = new ParticleStruct(effect);
+        ParticleStruct particleStruct = new ParticleStruct(effect, particleSystemName);
 
         particlePool.Add(particleStruct);
     }
 
+    /// <summary>
+    /// Sets the transform the particle systems should follow
+    /// </summary>
+    /// <param name="parent"></param>
     public void SetParticleParent(Transform parent)
     {
         if (particleParent == null)
@@ -162,10 +226,26 @@ public struct ParticleStruct
 {
     public VisualEffect VFX;
     public int CurrentParticleAmount;
+    public ParticleSystemName ParticleSystemName;
 
-    public ParticleStruct(VisualEffect vfx)
+    public ParticleStruct(VisualEffect vfx, ParticleSystemName particleSystemName)
     {
         VFX = vfx;
         CurrentParticleAmount = 0;
+        ParticleSystemName = particleSystemName;
     }
+}
+
+[System.Serializable]
+public struct ParticlePrefabStruct
+{
+    public VisualEffect VFXPrefab;
+    public ParticleSystemName ParticleSystemName;
+    [HideInInspector] public List<Vector3> ParticleQueue;
+}
+
+public enum ParticleSystemName
+{
+    Player,
+    AutoScanners
 }

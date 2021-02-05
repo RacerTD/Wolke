@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -34,8 +35,38 @@ public class EnemyController : AbilityController
                 break;
         }
     }
+    #endregion
 
-    private void EnemyAlertStateUpdate()
+    [Header("Particles")]
+    private float IdleFloat = 0f;
+    private float SusFloat = 0f;
+    private float AlertedFloat = 0f;
+    [SerializeField] private float ColorLerpMult = 1f;
+    private VisualEffect enemyParticleSystem;
+
+    [Header("AI Relevant Stuff")]
+    [SerializeField] private PlayerData playerData = new PlayerData();
+    [SerializeField] private Transform viewPoint;
+    [SerializeField] private LayerMask forEnemyVisibleMask = new LayerMask();
+
+    protected override void Start()
+    {
+        enemyParticleSystem = GetComponentInChildren<VisualEffect>();
+        base.Start();
+    }
+
+    protected override void Update()
+    {
+        UpdatePlayerData(ref playerData);
+
+        ParticleColorUpdate();
+
+        enemyParticleSystem.SetFloat("DistanceToPlayer", Vector3.Distance(GameManager.Instance.PlayerController.transform.position, transform.position));
+
+        base.Update();
+    }
+
+    private void ParticleColorUpdate()
     {
         switch (EnemyAlertState)
         {
@@ -62,26 +93,39 @@ public class EnemyController : AbilityController
         enemyParticleSystem.SetFloat("SusColorMult", SusFloat);
         enemyParticleSystem.SetFloat("AlertedColorMult", AlertedFloat);
     }
-    #endregion
 
-    [Header("Particles")]
-    [SerializeField] private float IdleFloat = 0f;
-    [SerializeField] private float SusFloat = 0f;
-    [SerializeField] private float AlertedFloat = 0f;
-    [SerializeField] private float ColorLerpMult = 1f;
-    private VisualEffect enemyParticleSystem;
-
-    protected override void Start()
+    private void CalculateEnemyAlertState(ref PlayerData data)
     {
-        enemyParticleSystem = GetComponentInChildren<VisualEffect>();
-        base.Start();
+
     }
 
-    protected override void Update()
+    private void UpdatePlayerData(ref PlayerData data)
     {
-        EnemyAlertStateUpdate();
-        base.Update();
+        data.DistanceToPlayer = Vector3.Distance(GameManager.Instance.PlayerController.transform.position, transform.position);
+        data.ViewAngleToPlayer = Vector3.Angle((GameManager.Instance.PlayerController.transform.position) - viewPoint.position, viewPoint.forward);
+        data.HasDirectSight = HasDirectSight();
     }
+
+    private bool HasDirectSight()
+    {
+        Debug.DrawRay(viewPoint.position, (GameManager.Instance.PlayerController.transform.position - viewPoint.position).normalized * playerData.DistanceToPlayer, Color.green);
+
+        RaycastHit[] hits = Physics.RaycastAll(viewPoint.position, GameManager.Instance.PlayerController.transform.position - viewPoint.position, forEnemyVisibleMask);
+        hits = hits.OrderBy(h => (h.point + viewPoint.position).magnitude).ToArray();
+
+        return hits.OrderBy(h => (h.point - viewPoint.position).magnitude).ToArray().Select(hit => hit.collider.GetComponent<PlayerController>() != null).FirstOrDefault();
+    }
+}
+
+[System.Serializable]
+public struct PlayerData
+{
+    public float DistanceToPlayer;
+    public float ViewAngleToPlayer;
+    public bool PlayerInDetectionCollider;
+    public bool HasDirectSight;
+    public float TimeSinceLastSighting;
+    public Vector3 LastSeenPlayerPos;
 }
 
 public enum EnemyAlertState
