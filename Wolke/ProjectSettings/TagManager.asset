@@ -12,7 +12,7 @@ TagManager:
   - Water
   - UI
   - Enemy
-  - 
+  - NoParticles
   - PostProcessing
   - Not in Reflection
   - 
