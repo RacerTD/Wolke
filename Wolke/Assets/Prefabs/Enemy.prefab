@@ -119,10 +119,11 @@ MonoBehaviour:
     HasDirectSight: 0
     TimeSinceLastSighting: 0
     LastSeenPlayerPos: {x: 0, y: 0, z: 0}
-  viewPoint: {fileID: 0}
+  viewPoint: {fileID: 3942381327337706522}
   forEnemyVisibleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 831
+  enemyPath: {fileID: 0}
 --- !u!1 &8850023813137385220
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,6 +172,14 @@ PrefabInstance:
     - target: {fileID: 5024839159736857733, guid: 196cd0fd48af8f04bbf16665ca8cb84f, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131135526338314553, guid: 196cd0fd48af8f04bbf16665ca8cb84f, type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131135526338314553, guid: 196cd0fd48af8f04bbf16665ca8cb84f, type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Name
+      value: DistanceToPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 6664317000634522954, guid: 196cd0fd48af8f04bbf16665ca8cb84f, type: 3}
       propertyPath: m_Icon

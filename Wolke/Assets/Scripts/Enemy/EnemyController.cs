@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.VFX;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : AbilityController
 {
     #region EnemyAlertState
@@ -48,10 +50,30 @@ public class EnemyController : AbilityController
     [SerializeField] private PlayerData playerData = new PlayerData();
     [SerializeField] private Transform viewPoint;
     [SerializeField] private LayerMask forEnemyVisibleMask = new LayerMask();
+    [SerializeField] private EnemyPath enemyPath;
+    private int _enemyPathIndex = 0;
+    private int enemyPathIndex
+    {
+        get => _enemyPathIndex;
+        set
+        {
+            if (value > enemyPath.Positions.Count())
+            {
+                _enemyPathIndex = 0;
+            }
+            else
+            {
+                _enemyPathIndex = value;
+            }
+        }
+    }
+
+    private NavMeshAgent navMeshAgent;
 
     protected override void Start()
     {
         enemyParticleSystem = GetComponentInChildren<VisualEffect>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
         base.Start();
     }
 
@@ -62,6 +84,8 @@ public class EnemyController : AbilityController
         ParticleColorUpdate();
 
         enemyParticleSystem.SetFloat("DistanceToPlayer", Vector3.Distance(GameManager.Instance.PlayerController.transform.position, transform.position));
+
+        UpdateEnemyWalk();
 
         base.Update();
     }
@@ -97,6 +121,26 @@ public class EnemyController : AbilityController
     private void CalculateEnemyAlertState(ref PlayerData data)
     {
 
+    }
+
+    private void UpdateEnemyWalk()
+    {
+        switch (EnemyAlertState)
+        {
+            case EnemyAlertState.Idle:
+                if (navMeshAgent.remainingDistance <= 1f && enemyPath != null)
+                {
+                    enemyPathIndex++;
+                    navMeshAgent.destination = enemyPath.Positions[enemyPathIndex].Position.position;
+                }
+                break;
+            case EnemyAlertState.Sus:
+                break;
+            case EnemyAlertState.Alerted:
+                break;
+            default:
+                break;
+        }
     }
 
     private void UpdatePlayerData(ref PlayerData data)
