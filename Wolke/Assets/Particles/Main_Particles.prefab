@@ -80,7 +80,7 @@ VisualEffect:
       m_Array: []
     m_Vector3f:
       m_Array:
-      - m_Value: {x: 0, y: -0.2, z: 0}
+      - m_Value: {x: 0, y: 0.05, z: 0}
         m_Name: UpPos
         m_Overridden: 1
     m_Vector4f:
@@ -336,9 +336,9 @@ VisualEffect:
           m_Curve:
           - serializedVersion: 3
             time: 0
-            value: 0.2
-            inSlope: -2000.0001
-            outSlope: -2000.0001
+            value: 0.05
+            inSlope: -500.00003
+            outSlope: -500.00003
             tangentMode: 34
             weightedMode: 0
             inWeight: 0.33333334
