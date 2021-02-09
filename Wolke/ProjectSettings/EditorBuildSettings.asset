@@ -8,8 +8,11 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/NiciWorking.unity
     guid: 607bc614d978e35488c23241d87cc899
+  - enabled: 1
+    path: Assets/Scenes/Level.unity
+    guid: 6e2b861fe5e948144ba826f2f3b0ec02
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: f2f86d4c98522e74bba8d00ded64fe6a, type: 2}
