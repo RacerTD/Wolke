@@ -53,7 +53,6 @@ public class PlayerController : AbilityController
     protected override void Start()
     {
         physicsbody = GetComponent<Rigidbody>();
-        GameManager.Instance.PlayerController = this;
         Cursor.lockState = CursorLockMode.Locked;
 
         ParticleManager.Instance.ParticlesPerSecond = shootRate;

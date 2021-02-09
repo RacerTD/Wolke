@@ -5,8 +5,15 @@ using UnityEngine;
 public class GameManager : ManagerModule<GameManager>
 {
     #region Player
-    public PlayerController PlayerController;
+    [SerializeField] private PlayerController playerPrefab;
+    [HideInInspector] public PlayerController PlayerController;
+    private PlayerSpawn playerStartSpawnPoint;
     #endregion
+
+    #region Enemys
+    public List<EnemyController> EnemyList = new List<EnemyController>();
+    #endregion
+
     #region CurrentGameState
     private GameState currentGameState = GameState.Playing;
     public GameState CurrentGameState
@@ -44,7 +51,10 @@ public class GameManager : ManagerModule<GameManager>
 
     private void Start()
     {
-        //Application.targetFrameRate = 10;
+        if (PlayerController == null)
+        {
+            PlayerController = Instantiate(playerPrefab, playerStartSpawnPoint.transform.position, playerStartSpawnPoint.transform.rotation);
+        }
     }
 
     private void Update()
@@ -63,6 +73,18 @@ public class GameManager : ManagerModule<GameManager>
             default:
                 break;
         }
+    }
+
+    /// <summary>
+    /// Sets the starting spawn point for the player
+    /// </summary>
+    /// <param name="playerSpawn"></param>
+    public void SetStartSpawnPoint(PlayerSpawn playerSpawn)
+    {
+        if (playerStartSpawnPoint == null)
+            playerStartSpawnPoint = playerSpawn;
+        else
+            Destroy(playerSpawn.gameObject);
     }
 }
 

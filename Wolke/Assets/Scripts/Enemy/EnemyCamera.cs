@@ -38,7 +38,7 @@ public class EnemyCamera : AbilityController
         {
             Vector3 shootDir = GenerateShootDirection();
 
-            Debug.DrawRay(particleShootPoint.position, shootDir.normalized, Color.red, 0.25f);
+            //Debug.DrawRay(particleShootPoint.position, shootDir.normalized, Color.red, 0.25f);
 
             RaycastHit[] hits = Physics.RaycastAll(particleShootPoint.position, shootDir, 100f, particleColliders);
 

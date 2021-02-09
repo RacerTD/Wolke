@@ -13,6 +13,9 @@ public class ManagerModule<T> : MonoBehaviour where T : ManagerModule<T>
 
     public virtual void Awake()
     {
-        instance = this as T;
+        if (instance == null)
+            instance = this as T;
+        else
+            Destroy(this);
     }
 }

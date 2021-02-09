@@ -48,6 +48,9 @@ public class EnemyController : AbilityController
 
     [Header("AI Relevant Stuff")]
     [SerializeField] private PlayerData playerData = new PlayerData();
+    [SerializeField] private float enemyDataUpdateIntervall = 0.5f;
+    private float timeSinceLastDataUpdate = 0f;
+    [SerializeField] private float maxSightingSistance = 10f;
     [SerializeField] private Transform viewPoint;
     [SerializeField] private LayerMask forEnemyVisibleMask = new LayerMask();
     [SerializeField] private EnemyPath enemyPath;
@@ -57,7 +60,7 @@ public class EnemyController : AbilityController
         get => _enemyPathIndex;
         set
         {
-            if (value > enemyPath.Positions.Count())
+            if (value > enemyPath.Positions.Count() - 1)
             {
                 _enemyPathIndex = 0;
             }
@@ -67,19 +70,31 @@ public class EnemyController : AbilityController
             }
         }
     }
-
     private NavMeshAgent navMeshAgent;
 
     protected override void Start()
     {
         enemyParticleSystem = GetComponentInChildren<VisualEffect>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+
+        if (!GameManager.Instance.EnemyList.Contains(this))
+        {
+            GameManager.Instance.EnemyList.Add(this);
+        }
+
         base.Start();
     }
 
     protected override void Update()
     {
-        UpdatePlayerData(ref playerData);
+        timeSinceLastDataUpdate += Time.deltaTime;
+        if (timeSinceLastDataUpdate >= enemyDataUpdateIntervall)
+        {
+            UpdatePlayerData(ref playerData);
+            timeSinceLastDataUpdate = 0f;
+        }
+
+        UpdateFramePerfectPlayerData(ref playerData);
 
         ParticleColorUpdate();
 
@@ -152,12 +167,30 @@ public class EnemyController : AbilityController
 
     private bool HasDirectSight()
     {
-        Debug.DrawRay(viewPoint.position, (GameManager.Instance.PlayerController.transform.position - viewPoint.position).normalized * playerData.DistanceToPlayer, Color.green);
+        Debug.DrawRay(viewPoint.position, (GameManager.Instance.PlayerController.transform.position - viewPoint.position).normalized * playerData.DistanceToPlayer, Color.green, enemyDataUpdateIntervall);
 
         RaycastHit[] hits = Physics.RaycastAll(viewPoint.position, GameManager.Instance.PlayerController.transform.position - viewPoint.position, forEnemyVisibleMask);
         hits = hits.OrderBy(h => (h.point + viewPoint.position).magnitude).ToArray();
 
         return hits.OrderBy(h => (h.point - viewPoint.position).magnitude).ToArray().Select(hit => hit.collider.GetComponent<PlayerController>() != null).FirstOrDefault();
+    }
+
+    private void UpdateFramePerfectPlayerData(ref PlayerData data)
+    {
+        if (PlayerVisibleForEnemy(ref data))
+            data.TimeSinceLastSighting = 0f;
+        else
+            data.TimeSinceLastSighting += Time.deltaTime;
+    }
+
+    private bool PlayerVisibleForEnemy(ref PlayerData data)
+    {
+        return data.DistanceToPlayer < maxSightingSistance && data.HasDirectSight;
+    }
+
+    public void SetDataDetectionCollider(bool value)
+    {
+        playerData.PlayerInDetectionCollider = value;
     }
 }
 
