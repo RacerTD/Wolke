@@ -45,7 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e6454f80ed4c7b49b9de63391b1c529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 3259029817537132333, guid: fab86e796cf61ba4dae6005f6cd226c9, type: 3}
   PlayerController: {fileID: 0}
+  EnemyList: []
 --- !u!114 &2745206756040203450
 MonoBehaviour:
   m_ObjectHideFlags: 0
