@@ -141,17 +141,13 @@ public class ParticleManager : ManagerModule<ParticleManager>
 
             //Debug.DrawRay(cam.transform.position, shootDir.normalized, Color.red, 0.25f);
 
-            RaycastHit[] hits = Physics.RaycastAll(cam.transform.position, shootDir, 100f, particleLayerMask);
+            RaycastHit hit = PhysicsExtension.RaycastFirst(cam.transform.position, shootDir, 100f, particleLayerMask);
 
-            hits = hits.OrderBy(h => (h.point - cam.transform.position).magnitude).ToArray();
-
-            if (hits.Length > 0)
+            if (hit.collider != null)
             {
-                //Debug.Log(hits[0].collider.gameObject.IsInLayerMask(particleBlockMask));
-
-                if (!hits[0].collider.gameObject.IsInLayerMask(particleBlockMask))
+                if (!hit.collider.gameObject.IsInLayerMask(particleBlockMask))
                 {
-                    temp.Add(hits[0].point);
+                    temp.Add(hit.point);
                 }
             }
         }

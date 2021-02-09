@@ -40,13 +40,11 @@ public class EnemyCamera : AbilityController
 
             //Debug.DrawRay(particleShootPoint.position, shootDir.normalized, Color.red, 0.25f);
 
-            RaycastHit[] hits = Physics.RaycastAll(particleShootPoint.position, shootDir, 100f, particleColliders);
+            RaycastHit hit = PhysicsExtension.RaycastFirst(particleShootPoint.position, shootDir, 100f, particleColliders);
 
-            hits = hits.OrderBy(h => (h.point - particleShootPoint.position).magnitude).ToArray();
-
-            if (hits.Length > 0)
+            if (hit.collider != null)
             {
-                temp.Add(hits[0].point);
+                temp.Add(hit.point);
             }
         }
 

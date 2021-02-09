@@ -9,6 +9,7 @@ using UnityEngine.VFX;
 public class EnemyController : AbilityController
 {
     #region EnemyAlertState
+    [SerializeField] private float timeInAltertState = 0f;
     [SerializeField] private EnemyAlertState enemyAlertState = EnemyAlertState.Idle;
     public EnemyAlertState EnemyAlertState
     {
@@ -17,6 +18,7 @@ public class EnemyController : AbilityController
         {
             if (value != EnemyAlertState)
             {
+                timeInAltertState = 0f;
                 OnEnemyAlertStateChange(value);
                 enemyAlertState = value;
             }
@@ -96,11 +98,15 @@ public class EnemyController : AbilityController
 
         UpdateFramePerfectPlayerData(ref playerData);
 
+        CalculateEnemyAlertState();
+
         ParticleColorUpdate();
 
         enemyParticleSystem.SetFloat("DistanceToPlayer", Vector3.Distance(GameManager.Instance.PlayerController.transform.position, transform.position));
 
         UpdateEnemyWalk();
+
+        timeInAltertState += Time.deltaTime;
 
         base.Update();
     }
@@ -133,9 +139,35 @@ public class EnemyController : AbilityController
         enemyParticleSystem.SetFloat("AlertedColorMult", AlertedFloat);
     }
 
-    private void CalculateEnemyAlertState(ref PlayerData data)
+    private void CalculateEnemyAlertState()
     {
-
+        switch (EnemyAlertState)
+        {
+            case EnemyAlertState.Idle:
+                if (PlayerVisibleForEnemy(ref playerData))
+                {
+                    EnemyAlertState = EnemyAlertState.Sus;
+                }
+                break;
+            case EnemyAlertState.Sus:
+                if (PlayerVisibleForEnemy(ref playerData) && timeInAltertState >= 5f && playerData.TimeSinceLastSighting <= 5f)
+                {
+                    EnemyAlertState = EnemyAlertState.Alerted;
+                }
+                else if (playerData.TimeSinceLastSighting >= 10f && !PlayerVisibleForEnemy(ref playerData))
+                {
+                    EnemyAlertState = EnemyAlertState.Idle;
+                }
+                break;
+            case EnemyAlertState.Alerted:
+                if (playerData.TimeSinceLastSighting >= 5f)
+                {
+                    EnemyAlertState = EnemyAlertState.Sus;
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     private void UpdateEnemyWalk()
@@ -150,8 +182,10 @@ public class EnemyController : AbilityController
                 }
                 break;
             case EnemyAlertState.Sus:
+                navMeshAgent.destination = transform.position;
                 break;
             case EnemyAlertState.Alerted:
+                navMeshAgent.destination = GameManager.Instance.PlayerController.transform.position;
                 break;
             default:
                 break;
@@ -185,7 +219,7 @@ public class EnemyController : AbilityController
 
     private bool PlayerVisibleForEnemy(ref PlayerData data)
     {
-        return data.DistanceToPlayer < maxSightingSistance && data.HasDirectSight;
+        return data.DistanceToPlayer < maxSightingSistance && data.HasDirectSight && data.PlayerInDetectionCollider;
     }
 
     public void SetDataDetectionCollider(bool value)
