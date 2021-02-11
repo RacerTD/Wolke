@@ -414,17 +414,17 @@ VisualEffect:
             inWeight: 0
             outWeight: 0
           - serializedVersion: 3
-            time: 0.3351046
-            value: 1
-            inSlope: 0
-            outSlope: 0
+            time: 0.33426407
+            value: 1.016556
+            inSlope: 0.16656125
+            outSlope: 0.16656125
             tangentMode: 136
             weightedMode: 0
             inWeight: 0.33333334
             outWeight: 0.33333334
           - serializedVersion: 3
-            time: 0.3984366
-            value: 4.9198875
+            time: 0.39759606
+            value: 4.9364433
             inSlope: 0
             outSlope: 0
             tangentMode: 0
@@ -432,8 +432,8 @@ VisualEffect:
             inWeight: 0
             outWeight: 0
           - serializedVersion: 3
-            time: 0.45417744
-            value: 1
+            time: 0.4533369
+            value: 1.016556
             inSlope: 0
             outSlope: 0
             tangentMode: 136
@@ -441,8 +441,8 @@ VisualEffect:
             inWeight: 0.33333334
             outWeight: 0.33333334
           - serializedVersion: 3
-            time: 1
-            value: 1
+            time: 0.99915946
+            value: 1.016556
             inSlope: 0
             outSlope: 0
             tangentMode: 0
