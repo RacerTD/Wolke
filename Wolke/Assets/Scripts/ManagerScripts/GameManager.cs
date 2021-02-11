@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : ManagerModule<GameManager>
@@ -12,6 +13,15 @@ public class GameManager : ManagerModule<GameManager>
 
     #region Enemys
     public List<EnemyController> EnemyList = new List<EnemyController>();
+    public EnemyAlertState GetCurrentAlertState()
+    {
+        if (EnemyList.Where(x => x.EnemyAlertState == EnemyAlertState.Alerted).Count() > 0)
+            return EnemyAlertState.Alerted;
+        else if (EnemyList.Where(x => x.EnemyAlertState == EnemyAlertState.Sus).Count() > 0)
+            return EnemyAlertState.Sus;
+        else
+            return EnemyAlertState.Idle;
+    }
     #endregion
 
     #region CurrentGameState

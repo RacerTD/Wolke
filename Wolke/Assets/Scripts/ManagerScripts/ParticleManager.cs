@@ -52,6 +52,11 @@ public class ParticleManager : ManagerModule<ParticleManager>
             particleSpread = Mathf.Clamp(value, 0f, float.MaxValue);
         }
     }
+    [SerializeField] private int lerpTime = 1;
+    [SerializeField] private Gradient idleGradient;
+    [SerializeField] private Gradient susGradient;
+    [SerializeField] private Gradient alertedGradient;
+    private Gradient currentGradient = new Gradient();
     #endregion
 
     private Transform particleParent;
@@ -79,6 +84,8 @@ public class ParticleManager : ManagerModule<ParticleManager>
         ExecuteParticleQueue();
 
         UpdateLivingParticleCounter();
+
+        UpdateMainParticleGradient();
     }
 
     private void UpdateLivingParticleCounter()
@@ -240,6 +247,27 @@ public class ParticleManager : ManagerModule<ParticleManager>
         if (particleParent == null)
         {
             particleParent = parent;
+        }
+    }
+
+    private void UpdateMainParticleGradient()
+    {
+        switch (GameManager.Instance.GetCurrentAlertState())
+        {
+            case EnemyAlertState.Idle:
+                currentGradient = GradientExtension.Lerp(currentGradient, idleGradient, lerpTime * Time.deltaTime);
+                break;
+            case EnemyAlertState.Sus:
+                currentGradient = GradientExtension.Lerp(currentGradient, susGradient, lerpTime * Time.deltaTime);
+                break;
+            case EnemyAlertState.Alerted:
+                currentGradient = GradientExtension.Lerp(currentGradient, alertedGradient, lerpTime * Time.deltaTime);
+                break;
+        }
+
+        foreach (ParticleStruct par in particlePool.Where(p => p.ParticleSystemName == ParticleSystemName.Player))
+        {
+            par.VFX.SetGradient("ColorGradient", currentGradient);
         }
     }
 }
