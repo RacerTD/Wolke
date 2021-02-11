@@ -233,7 +233,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 3259029819147358781}
   controlledCamera: {fileID: 3259029819147358778}
   shootRate: 5000
-  particleSpread: 50
+  particleSpread: 40
   viewSpeed: 4
   moveSpeed: 5
   isMoving: 0
