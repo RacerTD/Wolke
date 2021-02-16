@@ -73,7 +73,7 @@ VisualEffect:
       - m_Value: 0
         m_Name: Sample Time
         m_Overridden: 1
-      - m_Value: 0.1
+      - m_Value: 0.05
         m_Name: Frequency
         m_Overridden: 1
     m_Vector2f:
@@ -414,17 +414,17 @@ VisualEffect:
             inWeight: 0
             outWeight: 0
           - serializedVersion: 3
-            time: 0.33426407
+            time: 0.44053426
             value: 1.016556
-            inSlope: 0.16656125
-            outSlope: 0.16656125
+            inSlope: 0.13143189
+            outSlope: 0.13143189
             tangentMode: 136
             weightedMode: 0
             inWeight: 0.33333334
             outWeight: 0.33333334
           - serializedVersion: 3
-            time: 0.39759606
-            value: 4.9364433
+            time: 0.50386626
+            value: 3
             inSlope: 0
             outSlope: 0
             tangentMode: 0
@@ -432,7 +432,7 @@ VisualEffect:
             inWeight: 0
             outWeight: 0
           - serializedVersion: 3
-            time: 0.4533369
+            time: 0.5596071
             value: 1.016556
             inSlope: 0
             outSlope: 0

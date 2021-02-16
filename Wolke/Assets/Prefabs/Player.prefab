@@ -233,9 +233,9 @@ MonoBehaviour:
   cameraTransform: {fileID: 3259029819147358781}
   controlledCamera: {fileID: 3259029819147358778}
   shootRate: 5000
-  particleSpread: 40
+  particleSpread: 45
   viewSpeed: 4
-  moveSpeed: 5
+  moveSpeed: 4
   isMoving: 0
   MoveVector: {x: 0, y: 0, z: 0}
   MoveShouldVector: {x: 0, y: 0, z: 0}
@@ -358,7 +358,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 45
+  field of view: 50.53402
   orthographic: 0
   orthographic size: 5
   m_Depth: 0

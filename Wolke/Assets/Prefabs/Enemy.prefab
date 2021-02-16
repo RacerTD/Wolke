@@ -168,6 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91d1a16180ad3fa40a166a6113ebac97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeInAltertState: 0
   enemyAlertState: 0
   ColorLerpMult: 1
   playerData:
@@ -258,11 +259,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5131135526338314553, guid: 196cd0fd48af8f04bbf16665ca8cb84f, type: 3}
       propertyPath: m_PropertySheet.m_Float.m_Array.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5131135526338314553, guid: 196cd0fd48af8f04bbf16665ca8cb84f, type: 3}
       propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Name
       value: DistanceToPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131135526338314553, guid: 196cd0fd48af8f04bbf16665ca8cb84f, type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[1].m_Name
+      value: Distance Mult
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131135526338314553, guid: 196cd0fd48af8f04bbf16665ca8cb84f, type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131135526338314553, guid: 196cd0fd48af8f04bbf16665ca8cb84f, type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[1].m_Value
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131135526338314553, guid: 196cd0fd48af8f04bbf16665ca8cb84f, type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Overridden
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131135526338314553, guid: 196cd0fd48af8f04bbf16665ca8cb84f, type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[1].m_Overridden
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6664317000634522954, guid: 196cd0fd48af8f04bbf16665ca8cb84f, type: 3}
       propertyPath: m_Icon
