@@ -16,13 +16,13 @@ public class ScriptableSound : ScriptableObject
     [SerializeField] [Range(0, 1)] private float volumeRandom = 0f;
 
     /// <summary>
-    /// Return the Volume that the clip will have
+    /// Returns the Volume that the clip will have
     /// </summary>
     public float Volume() => Mathf.Clamp(volume + Random.Range(-volumeRandom, volumeRandom), 0f, 1f);
     [SerializeField] [Range(-3, 3)] private float pitch = 0f;
     [SerializeField] [Range(0, 3)] private float randomPitch = 0f;
     /// <summary>
-    /// Return the Pitch that the clip will have
+    /// Returns the Pitch that the clip will have
     /// </summary>
     public float Pitch() => Mathf.Clamp(pitch + Random.Range(-randomPitch, randomPitch), -3f, 3f);
     [Tooltip("-1 = Left, 1 = Right")] [Range(-1, 1)] public float StereoPan = 0f;

@@ -2,12 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO:
+//Background Music System
+//Dynamic Music
+//Fading in and out of specific tracks without breaks
+//AudioVolumes
+//Event base additional tracks
+
 public class AudioManager : ManagerModule<AudioManager>
 {
     private List<AudioSource> audioSources = new List<AudioSource>();
     private List<AudioSource> audioObjects = new List<AudioSource>();
 
     private void Update()
+    {
+        HandleNormalAudio();
+    }
+
+    private void HandleNormalAudio()
     {
         for (int i = audioSources.Count - 1; i >= 0; i--)
         {
