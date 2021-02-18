@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6664317000634522954
+--- !u!1 &3807702981490315607
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8105282979320369300}
-  - component: {fileID: 5131135526338314553}
-  - component: {fileID: 5024839159736857733}
+  - component: {fileID: 7029267218890455749}
+  - component: {fileID: 8426502017999577744}
+  - component: {fileID: 2286384180886047276}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Scanner_Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8105282979320369300
+--- !u!4 &7029267218890455749
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6664317000634522954}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_GameObject: {fileID: 3807702981490315607}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!2083052967 &5131135526338314553
+--- !u!2083052967 &8426502017999577744
 VisualEffect:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6664317000634522954}
+  m_GameObject: {fileID: 3807702981490315607}
   m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: 75595b7489d8ae948a934e0b5328a1ca, type: 3}
+  m_Asset: {fileID: 8926484042661614526, guid: aa20bf297ab6d4846aae2b1261f20d4c, type: 3}
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
@@ -48,24 +48,15 @@ VisualEffect:
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
-      m_Array:
-      - m_Value: 0.1
-        m_Name: Distance Mult
-        m_Overridden: 0
+      m_Array: []
     m_Vector2f:
       m_Array: []
     m_Vector3f:
       m_Array: []
     m_Vector4f:
       m_Array:
-      - m_Value: {x: 0.5, y: 0.005882353, z: 0, w: 1}
-        m_Name: Idle Color
-        m_Overridden: 1
-      - m_Value: {x: 1, y: 0.43820584, z: 0.25, w: 1}
-        m_Name: Sus Color
-        m_Overridden: 1
-      - m_Value: {x: 1, y: 0, z: 0.042039394, w: 1}
-        m_Name: Alert Color
+      - m_Value: {x: 1, y: 0, z: 0.03141361, w: 1}
+        m_Name: Color
         m_Overridden: 1
     m_Uint:
       m_Array: []
@@ -81,13 +72,13 @@ VisualEffect:
       m_Array: []
     m_Bool:
       m_Array: []
---- !u!73398921 &5024839159736857733
+--- !u!73398921 &2286384180886047276
 VFXRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6664317000634522954}
+  m_GameObject: {fileID: 3807702981490315607}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -100,6 +91,7 @@ VFXRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 0}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0

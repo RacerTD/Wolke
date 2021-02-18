@@ -163,7 +163,7 @@ MonoBehaviour:
     descendantCount: 0
   - name: Distance Mult
     path: Distance Mult
-    tooltip: 
+    tooltip: Lower Value = Higher View Distance
     sheetType: m_Float
     realType: Single
     defaultValue:
@@ -657,7 +657,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614583}
   - {fileID: 8926484042661614585}
   dataType: 0
-  capacity: 1000
+  capacity: 500
   stripCapacity: 16
   particlePerStripCount: 16
   m_Space: 1
@@ -5812,7 +5812,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614814}
   - {fileID: 8926484042661614836}
   dataType: 0
-  capacity: 3000
+  capacity: 1000
   stripCapacity: 16
   particlePerStripCount: 16
   m_Space: 0
@@ -8038,7 +8038,7 @@ MonoBehaviour:
   m_IsOutput: 0
   m_EnumValues: []
   m_ValueFilter: 0
-  m_Tooltip: 
+  m_Tooltip: Lower Value = Higher View Distance
   m_Nodes:
   - m_Id: 0
     linkedSlots:
