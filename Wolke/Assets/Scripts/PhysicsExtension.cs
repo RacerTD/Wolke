@@ -20,5 +20,13 @@ public static class PhysicsExtension
         hits = hits.OrderBy(h => Vector3.Distance(h.point, origin)).ToArray();
 
         return hits.FirstOrDefault();
+
+        /*
+        RaycastHit hit;
+
+        Physics.Raycast(origin, direction, out hit, maxDistance, layerMask);
+
+        return hit;
+        */
     }
 }

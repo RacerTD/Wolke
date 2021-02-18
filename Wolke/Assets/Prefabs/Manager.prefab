@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2745206756040203449}
   - component: {fileID: 2745206756040203450}
   - component: {fileID: 2745206756040203455}
+  - component: {fileID: 4759340875280464913}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -47,7 +48,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 3259029817537132333, guid: fab86e796cf61ba4dae6005f6cd226c9, type: 3}
   PlayerController: {fileID: 0}
-  EnemyList: []
 --- !u!114 &2745206756040203450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,6 +75,13 @@ MonoBehaviour:
   particleDebug: {fileID: 4142961355982659100, guid: 9a9b9514810011741b8e55f97dbc0e5d, type: 3}
   enableDebug: 0
   particlePool: []
+  particlePrefabs:
+  - VFXPrefab: {fileID: 5101521272629521223, guid: 7abcdc07173220e438cc459650808cd1, type: 3}
+    ParticleSystemName: 0
+    ParticleQueue: []
+  - VFXPrefab: {fileID: 5101521272629521223, guid: b5cc67b7040f6cf4db3aaeaaabfd353a, type: 3}
+    ParticleSystemName: 1
+    ParticleQueue: []
   maxParticlesInSystem: 5000
   totalSpawnedParticles: 0
   particleLayerMask:
@@ -171,10 +178,16 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  particlePrefabs:
-  - VFXPrefab: {fileID: 5101521272629521223, guid: 7abcdc07173220e438cc459650808cd1, type: 3}
-    ParticleSystemName: 0
-    ParticleQueue: []
-  - VFXPrefab: {fileID: 5101521272629521223, guid: b5cc67b7040f6cf4db3aaeaaabfd353a, type: 3}
-    ParticleSystemName: 1
-    ParticleQueue: []
+--- !u!114 &4759340875280464913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2745206756040203451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 669ec1b7d3691ef4eb397ccfcfaca158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyList: []

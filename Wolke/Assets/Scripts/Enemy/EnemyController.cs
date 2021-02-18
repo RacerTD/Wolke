@@ -79,9 +79,9 @@ public class EnemyController : AbilityController
         enemyParticleSystem = GetComponentInChildren<VisualEffect>();
         navMeshAgent = GetComponent<NavMeshAgent>();
 
-        if (!GameManager.Instance.EnemyList.Contains(this))
+        if (!EnemyManager.Instance.EnemyList.Contains(this))
         {
-            GameManager.Instance.EnemyList.Add(this);
+            EnemyManager.Instance.EnemyList.Add(this);
         }
 
         base.Start();

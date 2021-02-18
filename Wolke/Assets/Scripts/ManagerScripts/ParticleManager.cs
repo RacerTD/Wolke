@@ -12,6 +12,7 @@ public class ParticleManager : ManagerModule<ParticleManager>
 
     [Header("Particles")]
     [SerializeField] private List<ParticleStruct> particlePool = new List<ParticleStruct>();
+    [SerializeField] private List<ParticlePrefabStruct> particlePrefabs = new List<ParticlePrefabStruct>();
     private int particlePoolIndex = 0;
     public int ParticlePoolIndex
     {
@@ -52,18 +53,19 @@ public class ParticleManager : ManagerModule<ParticleManager>
             particleSpread = Mathf.Clamp(value, 0f, float.MaxValue);
         }
     }
+    #endregion
+
+    [Header("Gradient Stuff")]
     [SerializeField] private int lerpTime = 1;
     [SerializeField] private Gradient idleGradient;
     [SerializeField] private Gradient susGradient;
     [SerializeField] private Gradient alertedGradient;
     private Gradient currentGradient = new Gradient();
-    #endregion
 
     private Transform particleParent;
     private bool particleGeneratorActive = false;
     public void SetParticleGeneratorState(bool value) => particleGeneratorActive = value;
     private Camera cam;
-    [SerializeField] private List<ParticlePrefabStruct> particlePrefabs = new List<ParticlePrefabStruct>();
 
     public void Start()
     {
@@ -88,15 +90,7 @@ public class ParticleManager : ManagerModule<ParticleManager>
         UpdateMainParticleGradient();
     }
 
-    private void UpdateLivingParticleCounter()
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            particlePool[ParticlePoolIndex].CurrentParticleAmount = particlePool[ParticlePoolIndex].VFX.aliveParticleCount;
-            ParticlePoolIndex++;
-        }
-    }
-
+    #region Create Particles
     /// <summary>
     /// Adds Particles to the correct particle queue
     /// </summary>
@@ -123,6 +117,68 @@ public class ParticleManager : ManagerModule<ParticleManager>
     }
 
     /// <summary>
+    /// Tells the particle systems where to spawn new particles
+    /// </summary>
+    /// <param name="particlePos"></param>
+    public void GenerateParticles(List<Vector3> particlePos, ParticleSystemName name)
+    {
+        //Debug.Log($"Particles this frame: {particlePos.Count()}");
+
+        if (particlePos.Count() > particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem * 0.9f && p.ParticleSystemName == name).ToList().Count())
+        {
+            FillParticlePool(particlePos.Count() - particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem * 0.9f && p.ParticleSystemName == name).ToList().Count(), name);
+        }
+
+        List<ParticleStruct> temp = particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem * 0.9f && p.ParticleSystemName == name).ToList();
+
+        for (int i = 0; i < temp.Count() && i < particlePos.Count(); i++)
+        {
+            AddOneParticle(temp[i], particlePos[i]);
+        }
+    }
+
+    /// <summary>
+    /// Generates one particle in one particle system
+    /// </summary>
+    /// <param name="particleStruct">the particle system</param>
+    /// <param name="pos">the position of the particle</param>
+    private void AddOneParticle(ParticleStruct particleStruct, Vector3 pos)
+    {
+        totalSpawnedParticles++;
+        //particleStruct.CurrentParticleAmount++;
+        particleStruct.VFX.SetVector3("ParticlePos", pos);
+        particleStruct.VFX.SendEvent("CreateParticle");
+
+        if (enableDebug)
+        {
+            Instantiate(particleDebug, pos, Quaternion.identity);
+        }
+    }
+    #endregion
+
+    #region ParticleUpdates
+    private void UpdateMainParticleGradient()
+    {
+        switch (EnemyManager.Instance.GetCurrentAlertState())
+        {
+            case EnemyAlertState.Idle:
+                currentGradient = GradientExtension.Lerp(currentGradient, idleGradient, lerpTime * Time.deltaTime);
+                break;
+            case EnemyAlertState.Sus:
+                currentGradient = GradientExtension.Lerp(currentGradient, susGradient, lerpTime * Time.deltaTime);
+                break;
+            case EnemyAlertState.Alerted:
+                currentGradient = GradientExtension.Lerp(currentGradient, alertedGradient, lerpTime * Time.deltaTime);
+                break;
+        }
+
+        foreach (ParticleStruct par in particlePool.Where(p => p.ParticleSystemName == ParticleSystemName.Player))
+        {
+            par.VFX.SetGradient("ColorGradient", currentGradient);
+        }
+    }
+
+    /// <summary>
     /// Updates the positions of the particle systems, so they staay inside the cameraview
     /// </summary>
     private void UpdateParticleSystemPos()
@@ -132,6 +188,16 @@ public class ParticleManager : ManagerModule<ParticleManager>
             par.VFX.transform.position = particleParent.position;
         }
     }
+
+    private void UpdateLivingParticleCounter()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            particlePool[ParticlePoolIndex].CurrentParticleAmount = particlePool[ParticlePoolIndex].VFX.aliveParticleCount;
+            ParticlePoolIndex++;
+        }
+    }
+    #endregion
 
     #region PlayerParticles
     /// <summary>
@@ -172,45 +238,7 @@ public class ParticleManager : ManagerModule<ParticleManager>
     }
     #endregion
 
-    /// <summary>
-    /// Tells the particle systems where to spawn new particles
-    /// </summary>
-    /// <param name="particlePos"></param>
-    public void GenerateParticles(List<Vector3> particlePos, ParticleSystemName name)
-    {
-        //Debug.Log($"Particles this frame: {particlePos.Count()}");
-
-        if (particlePos.Count() > particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem * 0.9f && p.ParticleSystemName == name).ToList().Count())
-        {
-            FillParticlePool(particlePos.Count() - particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem * 0.9f && p.ParticleSystemName == name).ToList().Count(), name);
-        }
-
-        List<ParticleStruct> temp = particlePool.Where(p => p.CurrentParticleAmount < maxParticlesInSystem * 0.9f && p.ParticleSystemName == name).ToList();
-
-        for (int i = 0; i < temp.Count() && i < particlePos.Count(); i++)
-        {
-            AddOneParticle(temp[i], particlePos[i]);
-        }
-    }
-
-    /// <summary>
-    /// Generates one particle in one particle system
-    /// </summary>
-    /// <param name="particleStruct">the particle system</param>
-    /// <param name="pos">the position of the particle</param>
-    private void AddOneParticle(ParticleStruct particleStruct, Vector3 pos)
-    {
-        totalSpawnedParticles++;
-        //particleStruct.CurrentParticleAmount++;
-        particleStruct.VFX.SetVector3("ParticlePos", pos);
-        particleStruct.VFX.SendEvent("CreateParticle");
-
-        if (enableDebug)
-        {
-            Instantiate(particleDebug, pos, Quaternion.identity);
-        }
-    }
-
+    #region ParticlePool
     /// <summary>
     /// Generates more particle systems
     /// </summary>
@@ -249,27 +277,7 @@ public class ParticleManager : ManagerModule<ParticleManager>
             particleParent = parent;
         }
     }
-
-    private void UpdateMainParticleGradient()
-    {
-        switch (GameManager.Instance.GetCurrentAlertState())
-        {
-            case EnemyAlertState.Idle:
-                currentGradient = GradientExtension.Lerp(currentGradient, idleGradient, lerpTime * Time.deltaTime);
-                break;
-            case EnemyAlertState.Sus:
-                currentGradient = GradientExtension.Lerp(currentGradient, susGradient, lerpTime * Time.deltaTime);
-                break;
-            case EnemyAlertState.Alerted:
-                currentGradient = GradientExtension.Lerp(currentGradient, alertedGradient, lerpTime * Time.deltaTime);
-                break;
-        }
-
-        foreach (ParticleStruct par in particlePool.Where(p => p.ParticleSystemName == ParticleSystemName.Player))
-        {
-            par.VFX.SetGradient("ColorGradient", currentGradient);
-        }
-    }
+    #endregion
 }
 
 [System.Serializable]

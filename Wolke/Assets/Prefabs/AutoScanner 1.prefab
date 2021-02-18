@@ -44,16 +44,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b36c6c8b96d24348a5a6d85c58a5513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShootPoint: {fileID: 1496764034246285025}
+  autoScannerMode: 0
   particlesPerSecond: 2500
-  DegreeChangeHorizontal: 15
-  VerticalSpread: 35
+  rotationSpeed: 10
+  verticlalSpread: 40
   particleLayerMask:
     serializedVersion: 2
     m_Bits: 1911
   particleBlockMask:
     serializedVersion: 2
     m_Bits: 1088
+  startDegree: -20
+  endDegree: 20
+  loop: 0
+  currentlyActive: 1
+  shootPoint: {fileID: 1496764034246285025}
 --- !u!1 &1496764034246285024
 GameObject:
   m_ObjectHideFlags: 0

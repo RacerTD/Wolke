@@ -11,19 +11,6 @@ public class GameManager : ManagerModule<GameManager>
     private PlayerSpawn playerStartSpawnPoint;
     #endregion
 
-    #region Enemys
-    public List<EnemyController> EnemyList = new List<EnemyController>();
-    public EnemyAlertState GetCurrentAlertState()
-    {
-        if (EnemyList.Where(x => x.EnemyAlertState == EnemyAlertState.Alerted).Count() > 0)
-            return EnemyAlertState.Alerted;
-        else if (EnemyList.Where(x => x.EnemyAlertState == EnemyAlertState.Sus).Count() > 0)
-            return EnemyAlertState.Sus;
-        else
-            return EnemyAlertState.Idle;
-    }
-    #endregion
-
     #region CurrentGameState
     private GameState currentGameState = GameState.Playing;
     public GameState CurrentGameState
