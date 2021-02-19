@@ -121,8 +121,8 @@ GameObject:
   - component: {fileID: 8418569464494652079}
   - component: {fileID: 8418569464494652078}
   - component: {fileID: 8418569464494652073}
-  - component: {fileID: 113739935}
   - component: {fileID: 5794236476833260307}
+  - component: {fileID: 7761559266038735606}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -209,35 +209,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &113739935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8418569464494652074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91d1a16180ad3fa40a166a6113ebac97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeInAltertState: 0
-  enemyAlertState: 0
-  ColorLerpMult: 1
-  playerData:
-    DistanceToPlayer: 0
-    ViewAngleToPlayer: 0
-    PlayerInDetectionCollider: 0
-    HasDirectSight: 0
-    TimeSinceLastSighting: 0
-    LastSeenPlayerPos: {x: 0, y: 0, z: 0}
-  enemyDataUpdateIntervall: 0.5
-  maxSightingSistance: 10
-  viewPoint: {fileID: 3942381327337706522}
-  forEnemyVisibleMask:
-    serializedVersion: 2
-    m_Bits: 831
-  enemyPath: {fileID: 0}
 --- !u!195 &5794236476833260307
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -260,6 +231,37 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &7761559266038735606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8418569464494652074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43fd0846d99cad3439f5bc883bd452d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeInAltertState: 0
+  enemyAlertState: 0
+  playerData:
+    DistanceToPlayer: 0
+    ViewAngleToPlayer: 0
+    PlayerInDetectionCollider: 0
+    HasDirectSight: 0
+    TimeSinceLastSighting: 0
+    LastSeenPlayerPos: {x: 0, y: 0, z: 0}
+    TimeSinceLastPublicPos: 0
+    lastPublicPlayerPos: {x: 0, y: 0, z: 0}
+  enemyDataUpdateIntervall: 0.25
+  maxSightingSistance: 10
+  viewPoint: {fileID: 0}
+  forEnemyVisibleMask:
+    serializedVersion: 2
+    m_Bits: 831
+  ColorLerpMult: 1
+  enemyPath: {fileID: 0}
 --- !u!1 &8850023813137385220
 GameObject:
   m_ObjectHideFlags: 0

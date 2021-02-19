@@ -9,8 +9,8 @@ using UnityEngine.VFX;
 public class EnemyController : AbilityController
 {
     #region EnemyAlertState
-    [SerializeField] private float timeInAltertState = 0f;
-    [SerializeField] private EnemyAlertState enemyAlertState = EnemyAlertState.Idle;
+    [SerializeField] protected float timeInAltertState = 0f;
+    [SerializeField] protected EnemyAlertState enemyAlertState = EnemyAlertState.Idle;
     public EnemyAlertState EnemyAlertState
     {
         get => enemyAlertState;
@@ -25,7 +25,7 @@ public class EnemyController : AbilityController
         }
     }
 
-    private void OnEnemyAlertStateChange(EnemyAlertState state)
+    protected virtual void OnEnemyAlertStateChange(EnemyAlertState state)
     {
         switch (state)
         {
@@ -41,44 +41,16 @@ public class EnemyController : AbilityController
     }
     #endregion
 
-    [Header("Particles")]
-    private float IdleFloat = 0f;
-    private float SusFloat = 0f;
-    private float AlertedFloat = 0f;
-    [SerializeField] private float ColorLerpMult = 1f;
-    private VisualEffect enemyParticleSystem;
-
     [Header("AI Relevant Stuff")]
-    [SerializeField] private PlayerData playerData = new PlayerData();
+    [SerializeField] protected PlayerData playerData = new PlayerData();
     [SerializeField] private float enemyDataUpdateIntervall = 0.5f;
     private float timeSinceLastDataUpdate = 0f;
     [SerializeField] private float maxSightingSistance = 10f;
-    [SerializeField] private Transform viewPoint;
+    [SerializeField] protected Transform viewPoint;
     [SerializeField] private LayerMask forEnemyVisibleMask = new LayerMask();
-    [SerializeField] private EnemyPath enemyPath;
-    private int _enemyPathIndex = 0;
-    private int enemyPathIndex
-    {
-        get => _enemyPathIndex;
-        set
-        {
-            if (value > enemyPath.Positions.Count() - 1)
-            {
-                _enemyPathIndex = 0;
-            }
-            else
-            {
-                _enemyPathIndex = value;
-            }
-        }
-    }
-    private NavMeshAgent navMeshAgent;
 
     protected override void Start()
     {
-        enemyParticleSystem = GetComponentInChildren<VisualEffect>();
-        navMeshAgent = GetComponent<NavMeshAgent>();
-
         if (!EnemyManager.Instance.EnemyList.Contains(this))
         {
             EnemyManager.Instance.EnemyList.Add(this);
@@ -90,6 +62,7 @@ public class EnemyController : AbilityController
     protected override void Update()
     {
         timeSinceLastDataUpdate += Time.deltaTime;
+
         if (timeSinceLastDataUpdate >= enemyDataUpdateIntervall)
         {
             UpdatePlayerData(ref playerData);
@@ -100,46 +73,12 @@ public class EnemyController : AbilityController
 
         CalculateEnemyAlertState();
 
-        ParticleColorUpdate();
-
-        enemyParticleSystem.SetFloat("DistanceToPlayer", Vector3.Distance(GameManager.Instance.PlayerController.transform.position, transform.position));
-
-        UpdateEnemyWalk();
-
         timeInAltertState += Time.deltaTime;
 
         base.Update();
     }
 
-    private void ParticleColorUpdate()
-    {
-        switch (EnemyAlertState)
-        {
-            case EnemyAlertState.Idle:
-                IdleFloat = Mathf.Lerp(IdleFloat, 1, ColorLerpMult * Time.deltaTime);
-                SusFloat = Mathf.Lerp(SusFloat, 0, ColorLerpMult * Time.deltaTime);
-                AlertedFloat = Mathf.Lerp(AlertedFloat, 0, ColorLerpMult * Time.deltaTime);
-                break;
-            case EnemyAlertState.Sus:
-                IdleFloat = Mathf.Lerp(IdleFloat, 0, ColorLerpMult * Time.deltaTime);
-                SusFloat = Mathf.Lerp(SusFloat, 1, ColorLerpMult * Time.deltaTime);
-                AlertedFloat = Mathf.Lerp(AlertedFloat, 0, ColorLerpMult * Time.deltaTime);
-                break;
-            case EnemyAlertState.Alerted:
-                IdleFloat = Mathf.Lerp(IdleFloat, 0, ColorLerpMult * Time.deltaTime);
-                SusFloat = Mathf.Lerp(SusFloat, 0, ColorLerpMult * Time.deltaTime);
-                AlertedFloat = Mathf.Lerp(AlertedFloat, 1, ColorLerpMult * Time.deltaTime);
-                break;
-            default:
-                break;
-        }
-
-        enemyParticleSystem.SetFloat("IdleColorMult", IdleFloat);
-        enemyParticleSystem.SetFloat("SusColorMult", SusFloat);
-        enemyParticleSystem.SetFloat("AlertedColorMult", AlertedFloat);
-    }
-
-    private void CalculateEnemyAlertState()
+    protected virtual void CalculateEnemyAlertState()
     {
         switch (EnemyAlertState)
         {
@@ -163,29 +102,8 @@ public class EnemyController : AbilityController
                 if (playerData.TimeSinceLastSighting >= 5f)
                 {
                     EnemyAlertState = EnemyAlertState.Sus;
+                    EnemyManager.Instance.BradcastNewPlayerSighting(playerData.LastSeenPlayerPos, transform.position);
                 }
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void UpdateEnemyWalk()
-    {
-        switch (EnemyAlertState)
-        {
-            case EnemyAlertState.Idle:
-                if (navMeshAgent.remainingDistance <= 1f && enemyPath != null)
-                {
-                    enemyPathIndex++;
-                    navMeshAgent.destination = enemyPath.Positions[enemyPathIndex].Position.position;
-                }
-                break;
-            case EnemyAlertState.Sus:
-                navMeshAgent.destination = transform.position;
-                break;
-            case EnemyAlertState.Alerted:
-                navMeshAgent.destination = GameManager.Instance.PlayerController.transform.position;
                 break;
             default:
                 break;
@@ -212,9 +130,14 @@ public class EnemyController : AbilityController
     private void UpdateFramePerfectPlayerData(ref PlayerData data)
     {
         if (PlayerVisibleForEnemy(ref data))
+        {
             data.TimeSinceLastSighting = 0f;
+            data.LastSeenPlayerPos = GameManager.Instance.PlayerController.transform.position;
+        }
         else
+        {
             data.TimeSinceLastSighting += Time.deltaTime;
+        }
     }
 
     private bool PlayerVisibleForEnemy(ref PlayerData data)
@@ -225,6 +148,16 @@ public class EnemyController : AbilityController
     public void SetDataDetectionCollider(bool value)
     {
         playerData.PlayerInDetectionCollider = value;
+    }
+
+    /// <summary>
+    /// Gives new intel to the enemy
+    /// </summary>
+    /// <param name="pos"></param>
+    public virtual void GetNewPlayerIntel(Vector3 pos)
+    {
+        playerData.lastPublicPlayerPos = pos;
+        playerData.TimeSinceLastPublicPos = 0f;
     }
 }
 
@@ -237,6 +170,8 @@ public struct PlayerData
     public bool HasDirectSight;
     public float TimeSinceLastSighting;
     public Vector3 LastSeenPlayerPos;
+    public float TimeSinceLastPublicPos;
+    public Vector3 lastPublicPlayerPos;
 }
 
 public enum EnemyAlertState

@@ -6,6 +6,17 @@ using UnityEngine;
 public class EnemyManager : ManagerModule<EnemyManager>
 {
     public List<EnemyController> EnemyList = new List<EnemyController>();
+
+    [Header("Variables")]
+    [SerializeField] private float BroadcastDistance = 100f;
+
+    [Header("Public Information")]
+    public Vector3 newestPlayerPos = Vector3.zero;
+
+    /// <summary>
+    /// Return the current highest alertstate
+    /// </summary>
+    /// <returns></returns>
     public EnemyAlertState GetCurrentAlertState()
     {
         if (EnemyList.Where(x => x.EnemyAlertState == EnemyAlertState.Alerted).Count() > 0)
@@ -24,5 +35,18 @@ public class EnemyManager : ManagerModule<EnemyManager>
     public EnemyController GetNearestEnemy(Vector3 pos)
     {
         return EnemyList.OrderBy(x => Vector3.Distance(x.transform.position, pos)).First();
+    }
+
+    /// <summary>
+    /// Broadcasts
+    /// </summary>
+    /// <param name="playerPos"></param>
+    /// <param name="enemyThatDetectedPos"></param>
+    public void BradcastNewPlayerSighting(Vector3 playerPos, Vector3 enemyThatDetectedPos)
+    {
+        foreach (EnemyController con in EnemyList.Where(e => Vector3.Distance(e.transform.position, enemyThatDetectedPos) < BroadcastDistance))
+        {
+            con.GetNewPlayerIntel(playerPos);
+        }
     }
 }
