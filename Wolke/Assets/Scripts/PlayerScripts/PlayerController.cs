@@ -8,6 +8,21 @@ using UnityEngine.VFX;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : AbilityController
 {
+    [Header("General")]
+    [SerializeField] private bool isDead = false;
+    public bool IsDead
+    {
+        get => isDead;
+        set
+        {
+            if (value != isDead)
+            {
+                isDead = value;
+            }
+        }
+    }
+    private float timeSinceDeath = 0f;
+
     [Header("Camera")]
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Camera controlledCamera;
@@ -61,6 +76,13 @@ public class PlayerController : AbilityController
     protected override void Update()
     {
         HandleView();
+
+        if (IsDead)
+        {
+            timeSinceDeath += Time.deltaTime;
+            ParticleManager.Instance.PlayerIsDead(timeSinceDeath);
+        }
+
         base.Update();
     }
 
@@ -122,7 +144,7 @@ public class PlayerController : AbilityController
 
     public void HandleTestInput(InputAction.CallbackContext context)
     {
-        ParticleManager.Instance.PlayerIsDead();
+        IsDead = true;
     }
 
     /// <summary>

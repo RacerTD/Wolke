@@ -198,11 +198,11 @@ public class ParticleManager : ManagerModule<ParticleManager>
         }
     }
 
-    public void PlayerIsDead()
+    public void PlayerIsDead(float value)
     {
         foreach (ParticleStruct str in particlePool)
         {
-            str.VFX.SetBool("IsDead", true);
+            str.VFX.SetFloat("IsDead", value);
         }
     }
     #endregion
