@@ -44,6 +44,8 @@ public class EnemyManager : ManagerModule<EnemyManager>
     /// <param name="enemyThatDetectedPos"></param>
     public void BradcastNewPlayerSighting(Vector3 playerPos, Vector3 enemyThatDetectedPos)
     {
+        newestPlayerPos = playerPos;
+
         foreach (EnemyController con in EnemyList.Where(e => Vector3.Distance(e.transform.position, enemyThatDetectedPos) < BroadcastDistance))
         {
             con.GetNewPlayerIntel(playerPos);

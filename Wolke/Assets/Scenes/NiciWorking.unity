@@ -2020,10 +2020,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 7761559266038735606, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
-      propertyPath: viewPoint
-      value: 
-      objectReference: {fileID: 3942150667974100102}
     - target: {fileID: 8418569464494652074, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -2074,11 +2070,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
---- !u!4 &3942150667974100102 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3942381327337706522, guid: db3647710b94cba42b5c7b823cd4a5a6, type: 3}
-  m_PrefabInstance: {fileID: 3942150667974100101}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6196713884202216788
 PrefabInstance:
   m_ObjectHideFlags: 0

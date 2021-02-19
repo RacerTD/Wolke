@@ -120,6 +120,11 @@ public class PlayerController : AbilityController
         }
     }
 
+    public void HandleTestInput(InputAction.CallbackContext context)
+    {
+        ParticleManager.Instance.PlayerIsDead();
+    }
+
     /// <summary>
     /// Happens when the input device changes
     /// </summary>

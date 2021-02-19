@@ -210,7 +210,19 @@ MonoBehaviour:
     m_ActionId: 9cee73ac-2ab9-4a8f-b293-6411d3ba2920
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3259029817537132333}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: HandleTestInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 4250c594-a97b-4070-ac5b-866b2c2e6136
     m_ActionName: Player/Test[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0

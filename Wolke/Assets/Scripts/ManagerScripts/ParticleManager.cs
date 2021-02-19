@@ -197,6 +197,14 @@ public class ParticleManager : ManagerModule<ParticleManager>
             ParticlePoolIndex++;
         }
     }
+
+    public void PlayerIsDead()
+    {
+        foreach (ParticleStruct str in particlePool)
+        {
+            str.VFX.SetBool("IsDead", true);
+        }
+    }
     #endregion
 
     #region PlayerParticles
