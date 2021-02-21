@@ -21,12 +21,12 @@ public class AutoScanner : MonoBehaviour
         get => currentlyActive;
         set
         {
-            if(value != currentlyActive)
+            if (value != currentlyActive)
             {
                 UpdateActiveState();
                 currentlyActive = value;
 
-                if(value)
+                if (value)
                 {
                     startBaseRotation = shootPoint.rotation.eulerAngles;
                 }
@@ -35,39 +35,44 @@ public class AutoScanner : MonoBehaviour
     }
     private void UpdateActiveState()
     {
-        switch(autoScannerMode)
+        switch (autoScannerMode)
         {
             case AutoScannerMode.FromToDegree:
-                currentBaseRotation = new Vector3(originalStartRotation.x, originalStartRotation.y + startDegree, originalStartRotation.z);
-                shootPoint.localRotation = Quaternion.Euler(currentBaseRotation);
+                CurrentBaseRotation = new Vector3(originalStartRotation.x, originalStartRotation.y + startDegree, originalStartRotation.z);
+                shootPoint.localRotation = Quaternion.Euler(CurrentBaseRotation);
                 break;
             case AutoScannerMode.FromToAndBack:
-                currentBaseRotation = new Vector3(originalStartRotation.x, originalStartRotation.y + startDegree, originalStartRotation.z);
+                CurrentBaseRotation = new Vector3(originalStartRotation.x, originalStartRotation.y + startDegree, originalStartRotation.z);
                 currentRotation = shootPoint.localRotation.eulerAngles;
                 break;
-            case AutoScannerMode.RoundAndRound:            
+            case AutoScannerMode.RoundAndRound:
                 break;
         }
     }
 
     [Header("Other")]
     [SerializeField] private Transform shootPoint;
-    private Vector3 currentBaseRotation = Vector3.zero;
+    [HideInInspector] public Vector3 CurrentBaseRotation = Vector3.zero;
     private Vector3 startBaseRotation = Vector3.zero;
     private Vector3 currentRotation = Vector3.zero;
     private Vector3 originalStartRotation = Vector3.zero;
 
     private void Start()
     {
+        if (!EnemyManager.Instance.AutoScanner.Contains(this))
+        {
+            EnemyManager.Instance.AutoScanner.Add(this);
+        }
+
         originalStartRotation = shootPoint.localRotation.eulerAngles;
-        currentBaseRotation = shootPoint.localRotation.eulerAngles;
+        CurrentBaseRotation = shootPoint.localRotation.eulerAngles;
 
         UpdateActiveState();
     }
 
     private void Update()
     {
-        switch(autoScannerMode)
+        switch (autoScannerMode)
         {
             case AutoScannerMode.FromToDegree:
                 UpdateFromToDegree();
@@ -77,6 +82,9 @@ public class AutoScanner : MonoBehaviour
                 break;
             case AutoScannerMode.RoundAndRound:
                 UpdateRoundAndRound();
+                break;
+            case AutoScannerMode.Cone:
+                UpdateCone();
                 break;
         }
     }
@@ -103,9 +111,9 @@ public class AutoScanner : MonoBehaviour
             ParticleManager.Instance.AddParticlesToQueue(temp, ParticleSystemName.AutoScanners);
 
             currentRotation = new Vector3(currentRotation.x, currentRotation.y + rotationSpeed * Time.deltaTime, currentRotation.z);
-            currentBaseRotation = currentRotation;
+            CurrentBaseRotation = currentRotation;
 
-            if(currentRotation.y >= endDegree)
+            if (currentRotation.y >= endDegree)
             {
                 currentRotation = new Vector3(originalStartRotation.x, originalStartRotation.y + startDegree, originalStartRotation.z);
             }
@@ -136,7 +144,7 @@ public class AutoScanner : MonoBehaviour
             ParticleManager.Instance.AddParticlesToQueue(temp, ParticleSystemName.AutoScanners);
 
             currentRotation = new Vector3(currentRotation.x, currentRotation.y + rotationSpeed * Time.deltaTime, currentRotation.z);
-            currentBaseRotation = currentRotation;
+            CurrentBaseRotation = currentRotation;
 
             if (currentRotation.y > endDegree || currentRotation.y < startDegree)
             {
@@ -149,7 +157,7 @@ public class AutoScanner : MonoBehaviour
 
     private void UpdateRoundAndRound()
     {
-        if(CurrentlyActive)
+        if (CurrentlyActive)
         {
             List<Vector3> temp = new List<Vector3>();
 
@@ -173,15 +181,48 @@ public class AutoScanner : MonoBehaviour
             ParticleManager.Instance.AddParticlesToQueue(temp, ParticleSystemName.AutoScanners);
 
             currentRotation = new Vector3(currentRotation.x, currentRotation.y + rotationSpeed * Time.deltaTime, currentRotation.z);
-            currentBaseRotation = currentRotation;
+            CurrentBaseRotation = currentRotation;
 
             shootPoint.localRotation = Quaternion.Euler(currentRotation);
         }
     }
 
+    private void UpdateCone()
+    {
+        if (CurrentlyActive)
+        {
+            List<Vector3> temp = new List<Vector3>();
+
+            for (int i = 0; i < particlesPerSecond * Time.deltaTime; i++)
+            {
+                Vector3 shootDir = GenerateShootDirectionConeMode();
+
+                //Debug.DrawRay(cam.transform.position, shootDir.normalized, Color.red, 0.25f);
+
+                RaycastHit hit = PhysicsExtension.RaycastFirst(shootPoint.transform.position, shootDir, 100f, particleLayerMask);
+
+                if (hit.collider != null)
+                {
+                    if (!hit.collider.gameObject.IsInLayerMask(particleBlockMask))
+                    {
+                        temp.Add(hit.point);
+                    }
+                }
+            }
+
+            ParticleManager.Instance.AddParticlesToQueue(temp, ParticleSystemName.AutoScanners);
+        }
+    }
+
     private Vector3 GenerateShootDirection()
     {
-        shootPoint.localRotation = Quaternion.Euler(currentBaseRotation.x + Random.Range(-verticlalSpread, verticlalSpread), currentBaseRotation.y, currentBaseRotation.z);
+        shootPoint.localRotation = Quaternion.Euler(CurrentBaseRotation.x + Random.Range(-verticlalSpread, verticlalSpread), CurrentBaseRotation.y, CurrentBaseRotation.z);
+        return shootPoint.forward;
+    }
+
+    private Vector3 GenerateShootDirectionConeMode()
+    {
+        shootPoint.localRotation = Quaternion.Euler(CurrentBaseRotation.x + Random.Range(-verticlalSpread, verticlalSpread), CurrentBaseRotation.y + Random.Range(-verticlalSpread, verticlalSpread), CurrentBaseRotation.z);
         return shootPoint.forward;
     }
 }
@@ -190,5 +231,6 @@ public enum AutoScannerMode
 {
     FromToDegree,
     FromToAndBack,
-    RoundAndRound
+    RoundAndRound,
+    Cone
 }

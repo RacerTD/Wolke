@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyManager : ManagerModule<EnemyManager>
 {
     public List<EnemyController> EnemyList = new List<EnemyController>();
+    public List<AutoScanner> AutoScanner = new List<AutoScanner>();
 
     [Header("Variables")]
     [SerializeField] private float BroadcastDistance = 100f;

@@ -56,6 +56,9 @@ public class EnemyController : AbilityController
             EnemyManager.Instance.EnemyList.Add(this);
         }
 
+        playerData.TimeSinceLastPublicPos = 10000000f;
+        playerData.TimeSinceLastSighting = 10000000f;
+
         base.Start();
     }
 
@@ -91,6 +94,7 @@ public class EnemyController : AbilityController
             case EnemyAlertState.Sus:
                 if (PlayerVisibleForEnemy(ref playerData) && timeInAltertState >= 5f && playerData.TimeSinceLastSighting <= 5f)
                 {
+                    EnemyManager.Instance.BradcastNewPlayerSighting(playerData.LastSeenPlayerPos, transform.position);
                     EnemyAlertState = EnemyAlertState.Alerted;
                 }
                 else if (playerData.TimeSinceLastSighting >= 10f && !PlayerVisibleForEnemy(ref playerData))
@@ -102,7 +106,6 @@ public class EnemyController : AbilityController
                 if (playerData.TimeSinceLastSighting >= 5f)
                 {
                     EnemyAlertState = EnemyAlertState.Sus;
-                    EnemyManager.Instance.BradcastNewPlayerSighting(playerData.LastSeenPlayerPos, transform.position);
                 }
                 break;
             default:
@@ -138,6 +141,7 @@ public class EnemyController : AbilityController
         {
             data.TimeSinceLastSighting += Time.deltaTime;
         }
+        data.TimeSinceLastPublicPos += Time.deltaTime;
     }
 
     private bool PlayerVisibleForEnemy(ref PlayerData data)

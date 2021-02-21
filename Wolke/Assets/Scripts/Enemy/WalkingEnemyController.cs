@@ -33,6 +33,36 @@ public class WalkingEnemyController : EnemyController
         }
     }
     private NavMeshAgent navMeshAgent;
+    private WalkingEnemyBehavior currentBehavior = WalkingEnemyBehavior.WaitingAtPos;
+    public WalkingEnemyBehavior CurrentBehavior
+    {
+        get => currentBehavior;
+        set
+        {
+            if (value != currentBehavior)
+            {
+                currentBehavior = value;
+                StartNewWalkingEnemyBehavior(value);
+                timeInCurrentBehavour = 0f;
+            }
+        }
+    }
+    [SerializeField] private float timeInCurrentBehavour = 0f;
+
+    private void StartNewWalkingEnemyBehavior(WalkingEnemyBehavior value)
+    {
+        switch (value)
+        {
+            case WalkingEnemyBehavior.WalkingAround:
+                break;
+            case WalkingEnemyBehavior.WaitingAtPos:
+                break;
+            case WalkingEnemyBehavior.ScanneingPos:
+                break;
+            case WalkingEnemyBehavior.FollowingPlayer:
+                break;
+        }
+    }
 
     protected override void Start()
     {
@@ -47,6 +77,21 @@ public class WalkingEnemyController : EnemyController
         enemyParticleSystem.SetFloat("DistanceToPlayer", Vector3.Distance(GameManager.Instance.PlayerController.transform.position, transform.position));
         UpdateEnemyWalk();
         base.Update();
+    }
+
+    private void UpdateWalkingEnemyBehavior()
+    {
+        switch (currentBehavior)
+        {
+            case WalkingEnemyBehavior.WalkingAround:
+                break;
+            case WalkingEnemyBehavior.WaitingAtPos:
+                break;
+            case WalkingEnemyBehavior.ScanneingPos:
+                break;
+            case WalkingEnemyBehavior.FollowingPlayer:
+                break;
+        }
     }
 
     private void ParticleColorUpdate()
@@ -98,4 +143,12 @@ public class WalkingEnemyController : EnemyController
                 break;
         }
     }
+}
+
+public enum WalkingEnemyBehavior
+{
+    WalkingAround,
+    WaitingAtPos,
+    ScanneingPos,
+    FollowingPlayer
 }
