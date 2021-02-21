@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.VFX;
 
-[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : AbilityController
 {
     #region EnemyAlertState
