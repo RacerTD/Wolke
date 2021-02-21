@@ -20,7 +20,7 @@ public class EnemyCamera : EnemyController
 
     protected override void Update()
     {
-        viewPoint.rotation = Quaternion.Euler(autoScanner.CurrentBaseRotation);
+        viewPoint.localRotation = Quaternion.Euler(autoScanner.CurrentBaseRotation);
         base.Update();
     }
 
