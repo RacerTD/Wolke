@@ -33,41 +33,13 @@ public class WalkingEnemyController : EnemyController
         }
     }
     private NavMeshAgent navMeshAgent;
-    private WalkingEnemyBehavior currentBehavior = WalkingEnemyBehavior.WaitingAtPos;
-    public WalkingEnemyBehavior CurrentBehavior
-    {
-        get => currentBehavior;
-        set
-        {
-            if (value != currentBehavior)
-            {
-                currentBehavior = value;
-                StartNewWalkingEnemyBehavior(value);
-                timeInCurrentBehavour = 0f;
-            }
-        }
-    }
-    [SerializeField] private float timeInCurrentBehavour = 0f;
-
-    private void StartNewWalkingEnemyBehavior(WalkingEnemyBehavior value)
-    {
-        switch (value)
-        {
-            case WalkingEnemyBehavior.WalkingAround:
-                break;
-            case WalkingEnemyBehavior.WaitingAtPos:
-                break;
-            case WalkingEnemyBehavior.ScanneingPos:
-                break;
-            case WalkingEnemyBehavior.FollowingPlayer:
-                break;
-        }
-    }
+    public List<EnemyBehavourStep> BehavourList = new List<EnemyBehavourStep>();
 
     protected override void Start()
     {
         enemyParticleSystem = GetComponentInChildren<VisualEffect>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        GenerateEnemyBehavour();
         base.Start();
     }
 
@@ -75,23 +47,50 @@ public class WalkingEnemyController : EnemyController
     {
         ParticleColorUpdate();
         enemyParticleSystem.SetFloat("DistanceToPlayer", Vector3.Distance(GameManager.Instance.PlayerController.transform.position, transform.position));
-        UpdateEnemyWalk();
+        UpdateEnemyBehavour();
         base.Update();
     }
 
-    private void UpdateWalkingEnemyBehavior()
+    private void UpdateEnemyBehavour()
     {
-        switch (currentBehavior)
+        if (BehavourList.Count() <= 0)
         {
-            case WalkingEnemyBehavior.WalkingAround:
+            GenerateEnemyBehavour();
+        }
+
+        if (!BehavourList.First().Started)
+        {
+            BehavourList.First().StartBehavour(gameObject);
+        }
+
+        BehavourList.First().UpdateBehavour(gameObject);
+
+        if (BehavourList.First().RemainingTime < 0)
+        {
+            BehavourList.RemoveAt(0);
+        }
+    }
+
+    private void GenerateEnemyBehavour()
+    {
+        List<EnemyBehavourStep> temp = new List<EnemyBehavourStep>();
+
+        switch (EnemyAlertState)
+        {
+            case EnemyAlertState.Idle:
+                temp.Add(new EnemyBehavourWalkToPos(enemyPath.Positions[enemyPathIndex].Position.position, navMeshAgent, float.MaxValue, true));
+                temp.Add(new EnemyBehavourWaitAtPos(enemyPath.Positions[enemyPathIndex].WaitTimeAtPostion, true));
+                enemyPathIndex++;
                 break;
-            case WalkingEnemyBehavior.WaitingAtPos:
+            case EnemyAlertState.Sus:
                 break;
-            case WalkingEnemyBehavior.ScanneingPos:
+            case EnemyAlertState.Alerted:
                 break;
-            case WalkingEnemyBehavior.FollowingPlayer:
+            default:
                 break;
         }
+
+        BehavourList.AddRange(temp);
     }
 
     private void ParticleColorUpdate()
@@ -121,34 +120,4 @@ public class WalkingEnemyController : EnemyController
         enemyParticleSystem.SetFloat("SusColorMult", SusFloat);
         enemyParticleSystem.SetFloat("AlertedColorMult", AlertedFloat);
     }
-
-    private void UpdateEnemyWalk()
-    {
-        switch (EnemyAlertState)
-        {
-            case EnemyAlertState.Idle:
-                if (navMeshAgent.remainingDistance <= 1f && enemyPath != null)
-                {
-                    enemyPathIndex++;
-                    navMeshAgent.destination = enemyPath.Positions[enemyPathIndex].Position.position;
-                }
-                break;
-            case EnemyAlertState.Sus:
-                navMeshAgent.destination = transform.position;
-                break;
-            case EnemyAlertState.Alerted:
-                navMeshAgent.destination = GameManager.Instance.PlayerController.transform.position;
-                break;
-            default:
-                break;
-        }
-    }
-}
-
-public enum WalkingEnemyBehavior
-{
-    WalkingAround,
-    WaitingAtPos,
-    ScanneingPos,
-    FollowingPlayer
 }

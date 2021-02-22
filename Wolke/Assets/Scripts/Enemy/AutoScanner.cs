@@ -116,6 +116,11 @@ public class AutoScanner : MonoBehaviour
             if (currentRotation.y >= endDegree)
             {
                 currentRotation = new Vector3(originalStartRotation.x, originalStartRotation.y + startDegree, originalStartRotation.z);
+
+                if (!loop)
+                {
+                    CurrentlyActive = false;
+                }
             }
 
             shootPoint.localRotation = Quaternion.Euler(currentRotation);
@@ -149,6 +154,11 @@ public class AutoScanner : MonoBehaviour
             if (currentRotation.y > endDegree || currentRotation.y < startDegree)
             {
                 rotationSpeed = -rotationSpeed;
+
+                if (!loop && rotationSpeed > 0)
+                {
+                    CurrentlyActive = false;
+                }
             }
 
             shootPoint.localRotation = Quaternion.Euler(currentRotation);

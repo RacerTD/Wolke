@@ -47,6 +47,9 @@ public class EnemyController : AbilityController
     [SerializeField] private float maxSightingSistance = 10f;
     [SerializeField] protected Transform viewPoint;
     [SerializeField] private LayerMask forEnemyVisibleMask = new LayerMask();
+    [SerializeField] private float timeSusTilAlerted = 5f;
+    [SerializeField] private float timeAlertedTilSus = 5f;
+    [SerializeField] private float timeSusTilIdle = 10f;
 
     protected override void Start()
     {
@@ -91,18 +94,18 @@ public class EnemyController : AbilityController
                 }
                 break;
             case EnemyAlertState.Sus:
-                if (PlayerVisibleForEnemy(ref playerData) && timeInAltertState >= 5f && playerData.TimeSinceLastSighting <= 5f)
+                if (PlayerVisibleForEnemy(ref playerData) && timeInAltertState >= timeSusTilAlerted && playerData.TimeSinceLastSighting <= 5f)
                 {
                     EnemyManager.Instance.BradcastNewPlayerSighting(playerData.LastSeenPlayerPos, transform.position);
                     EnemyAlertState = EnemyAlertState.Alerted;
                 }
-                else if (playerData.TimeSinceLastSighting >= 10f && !PlayerVisibleForEnemy(ref playerData))
+                else if (playerData.TimeSinceLastSighting >= timeSusTilIdle && !PlayerVisibleForEnemy(ref playerData))
                 {
                     EnemyAlertState = EnemyAlertState.Idle;
                 }
                 break;
             case EnemyAlertState.Alerted:
-                if (playerData.TimeSinceLastSighting >= 5f)
+                if (playerData.TimeSinceLastSighting >= timeAlertedTilSus)
                 {
                     EnemyAlertState = EnemyAlertState.Sus;
                 }
