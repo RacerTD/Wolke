@@ -138,7 +138,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3879555054367907720}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.277, z: 1.78}
+  m_LocalPosition: {x: 0, y: 1.027, z: -0.576}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3879555052733372578}
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoScannerMode: 3
   particlesPerSecond: 500
-  rotationSpeed: 10
+  rotationSpeed: 0
   verticlalSpread: 40
   particleLayerMask:
     serializedVersion: 2
@@ -168,8 +168,8 @@ MonoBehaviour:
   particleBlockMask:
     serializedVersion: 2
     m_Bits: 1088
-  startDegree: -20
-  endDegree: 20
+  startDegree: -60
+  endDegree: 60
   loop: 0
   currentlyActive: 1
   shootPoint: {fileID: 3879555052733372578}
@@ -351,9 +351,12 @@ MonoBehaviour:
   forEnemyVisibleMask:
     serializedVersion: 2
     m_Bits: 831
+  timeSusTilAlerted: 3
+  timeAlertedTilSus: 5
+  timeSusTilIdle: 6
   ColorLerpMult: 1
   enemyPath: {fileID: 0}
-  timeInCurrentBehavour: 0
+  BehavourList: []
 --- !u!1 &8850023813137385220
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,7 +406,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 33901f4157612bc4ebbb6b9335f488dd, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1159.5481
+      value: 717.8646
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 33901f4157612bc4ebbb6b9335f488dd, type: 3}
       propertyPath: m_LocalScale.z
@@ -415,7 +418,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 33901f4157612bc4ebbb6b9335f488dd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.46
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 33901f4157612bc4ebbb6b9335f488dd, type: 3}
       propertyPath: m_LocalPosition.z

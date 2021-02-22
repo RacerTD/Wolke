@@ -76,6 +76,9 @@ VisualEffect:
       - m_Value: 0.05
         m_Name: Frequency
         m_Overridden: 1
+      - m_Value: 7
+        m_Name: Alpha Speed Multiply
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
@@ -416,15 +419,15 @@ VisualEffect:
           - serializedVersion: 3
             time: 0.44053426
             value: 1.016556
-            inSlope: 0.13143189
-            outSlope: 0.13143189
+            inSlope: 0.1314319
+            outSlope: 0.1314319
             tangentMode: 136
             weightedMode: 0
             inWeight: 0.33333334
             outWeight: 0.33333334
           - serializedVersion: 3
             time: 0.50386626
-            value: 3
+            value: 3.5
             inSlope: 0
             outSlope: 0
             tangentMode: 0

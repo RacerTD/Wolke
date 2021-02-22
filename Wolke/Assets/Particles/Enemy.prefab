@@ -52,19 +52,22 @@ VisualEffect:
       - m_Value: 0.1
         m_Name: Distance Mult
         m_Overridden: 0
+      - m_Value: 0.005
+        m_Name: Frequency
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
       m_Array: []
     m_Vector4f:
       m_Array:
-      - m_Value: {x: 0.5, y: 0.005882353, z: 0, w: 1}
+      - m_Value: {x: 1, y: 0, z: 0.03141361, w: 1}
         m_Name: Idle Color
         m_Overridden: 1
       - m_Value: {x: 1, y: 0.43820584, z: 0.25, w: 1}
         m_Name: Sus Color
         m_Overridden: 1
-      - m_Value: {x: 1, y: 0, z: 0.042039394, w: 1}
+      - m_Value: {x: 1, y: 0, z: 0.61351156, w: 1}
         m_Name: Alert Color
         m_Overridden: 1
     m_Uint:
@@ -74,7 +77,60 @@ VisualEffect:
     m_Matrix4x4f:
       m_Array: []
     m_AnimationCurve:
-      m_Array: []
+      m_Array:
+      - m_Value:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 0.23840168
+            value: 1.016556
+            inSlope: 0.13143189
+            outSlope: 0.13143189
+            tangentMode: 136
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.50386626
+            value: 9
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 0.80720586
+            value: 1.016556
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 136
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.99915946
+            value: 1.016556
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_Name: Curve New
+        m_Overridden: 1
     m_Gradient:
       m_Array: []
     m_NamedObject:
