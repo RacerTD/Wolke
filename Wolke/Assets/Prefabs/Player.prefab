@@ -242,10 +242,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e695747ebc8c04f90961a6d4193c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
   cameraTransform: {fileID: 3259029819147358781}
   controlledCamera: {fileID: 3259029819147358778}
   shootRate: 5000
-  particleSpread: 45
+  particleSpread: 50
   viewSpeed: 4
   moveSpeed: 4
   isMoving: 0
