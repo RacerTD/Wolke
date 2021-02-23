@@ -72,21 +72,22 @@ public class AutoScanner : MonoBehaviour
 
     private void Update()
     {
-        switch (autoScannerMode)
-        {
-            case AutoScannerMode.FromToDegree:
-                UpdateFromToDegree();
-                break;
-            case AutoScannerMode.FromToAndBack:
-                UpdateFromToAndBack();
-                break;
-            case AutoScannerMode.RoundAndRound:
-                UpdateRoundAndRound();
-                break;
-            case AutoScannerMode.Cone:
-                UpdateCone();
-                break;
-        }
+        if (Time.time >= 10f)
+            switch (autoScannerMode)
+            {
+                case AutoScannerMode.FromToDegree:
+                    UpdateFromToDegree();
+                    break;
+                case AutoScannerMode.FromToAndBack:
+                    UpdateFromToAndBack();
+                    break;
+                case AutoScannerMode.RoundAndRound:
+                    UpdateRoundAndRound();
+                    break;
+                case AutoScannerMode.Cone:
+                    UpdateCone();
+                    break;
+            }
     }
 
     private void UpdateFromToDegree()
