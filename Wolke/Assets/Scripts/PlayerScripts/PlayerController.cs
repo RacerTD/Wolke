@@ -18,6 +18,11 @@ public class PlayerController : AbilityController
             if (value != isDead)
             {
                 isDead = value;
+
+                if (!isDead)
+                {
+                    timeSinceDeath = 0f;
+                }
             }
         }
     }
@@ -99,16 +104,19 @@ public class PlayerController : AbilityController
 
     private void HandleMove()
     {
-        if (isMoving)
-            MoveShouldVector = new Vector3(moveInputVector.x * moveSpeed, 0, moveInputVector.y * moveSpeed);
-        else
-            MoveShouldVector = Vector3.zero;
+        if (!IsDead)
+        {
+            if (isMoving)
+                MoveShouldVector = new Vector3(moveInputVector.x * moveSpeed, 0, moveInputVector.y * moveSpeed);
+            else
+                MoveShouldVector = Vector3.zero;
 
-        MoveVector = Vector3.Lerp(MoveVector, MoveShouldVector, accelerationSpeed * Time.fixedDeltaTime);
+            MoveVector = Vector3.Lerp(MoveVector, MoveShouldVector, accelerationSpeed * Time.fixedDeltaTime);
 
-        transform.Translate(Vector3.RotateTowards(transform.position, MoveVector * Time.fixedDeltaTime, float.MaxValue, float.MaxValue));
+            transform.Translate(Vector3.RotateTowards(transform.position, MoveVector * Time.fixedDeltaTime, float.MaxValue, float.MaxValue));
 
-        //physicsbody.MovePosition(transform.position + MoveVector);
+            //physicsbody.MovePosition(transform.position + MoveVector);
+        }
     }
 
     public void HandleViewInput(InputAction.CallbackContext context)
@@ -119,15 +127,18 @@ public class PlayerController : AbilityController
 
     private void HandleView()
     {
-        if (!viewInputAction.canceled)
+        if (!IsDead)
         {
-            transform.rotation = Quaternion.Euler(new Vector3(0f, viewInputVector.x * viewSpeed * Time.deltaTime + transform.localRotation.eulerAngles.y, 0));
-            rotationX += -viewInputVector.y * viewSpeed * Time.deltaTime;
-            rotationX = Mathf.Clamp(rotationX, -85, 85);
-            cameraTransform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-        }
+            if (!viewInputAction.canceled)
+            {
+                transform.rotation = Quaternion.Euler(new Vector3(0f, viewInputVector.x * viewSpeed * Time.deltaTime + transform.localRotation.eulerAngles.y, 0));
+                rotationX += -viewInputVector.y * viewSpeed * Time.deltaTime;
+                rotationX = Mathf.Clamp(rotationX, -85, 85);
+                cameraTransform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+            }
 
-        Debug.DrawRay(controlledCamera.transform.position, controlledCamera.transform.forward, Color.red);
+            Debug.DrawRay(controlledCamera.transform.position, controlledCamera.transform.forward, Color.red);
+        }
     }
 
     public void HandleParticleShootInput(InputAction.CallbackContext context)
@@ -145,6 +156,13 @@ public class PlayerController : AbilityController
     public void HandleTestInput(InputAction.CallbackContext context)
     {
         IsDead = true;
+    }
+
+    public void HandleTestInput2(InputAction.CallbackContext context)
+    {
+        IsDead = false;
+        GameManager.Instance.ResetPlayerToSpawn();
+        ParticleManager.Instance.PlayerIsDead(0f);
     }
 
     /// <summary>

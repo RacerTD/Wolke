@@ -78,7 +78,7 @@ public class ParticleManager : ManagerModule<ParticleManager>
         UpdateParticleSystemPos();
 
         //PlayerParticle Stuff
-        if (particleGeneratorActive)
+        if (particleGeneratorActive && !GameManager.Instance.PlayerController.IsDead)
         {
             AddParticlesToQueue(GenerateParticlePositions(), ParticleSystemName.Player);
         }

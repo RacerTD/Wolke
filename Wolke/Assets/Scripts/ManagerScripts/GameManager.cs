@@ -83,6 +83,15 @@ public class GameManager : ManagerModule<GameManager>
         else
             Destroy(playerSpawn.gameObject);
     }
+
+    /// <summary>
+    /// Resets the player to the spawn point
+    /// </summary>
+    public void ResetPlayerToSpawn()
+    {
+        PlayerController.transform.position = playerStartSpawnPoint.transform.position;
+        PlayerController.transform.rotation = playerStartSpawnPoint.transform.rotation;
+    }
 }
 
 public enum GameState
