@@ -5,12 +5,15 @@ using UnityEngine;
 [System.Serializable]
 public class EnemyBehavourStep
 {
+    public string Name = "Empty";
+    public bool Interrupts = false;
     public float RemainingTime = 0f;
     public bool IsInterruptable = false;
     public bool Started = false;
 
-    public EnemyBehavourStep(float remainingTime, bool isInterruptable = false)
+    public EnemyBehavourStep(bool interrupts, float remainingTime, bool isInterruptable)
     {
+        Interrupts = interrupts;
         RemainingTime = remainingTime;
         IsInterruptable = isInterruptable;
     }

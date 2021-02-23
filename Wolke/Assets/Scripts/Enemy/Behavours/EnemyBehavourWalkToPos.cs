@@ -8,8 +8,10 @@ public class EnemyBehavourWalkToPos : EnemyBehavourStep
 {
     public Vector3 Pos = Vector3.zero;
     public NavMeshAgent NavMeshAgent;
-    public EnemyBehavourWalkToPos(Vector3 pos, NavMeshAgent navMeshAgent, float time, bool isInterruptable = false) : base(time, isInterruptable)
+    public EnemyBehavourWalkToPos(Vector3 pos, NavMeshAgent navMeshAgent, bool interrupts, float time, bool isInterruptable) : base(interrupts, time, isInterruptable)
     {
+        Name = "Walk to pos";
+        Debug.Log("Added walk to pos");
         Pos = pos;
         NavMeshAgent = navMeshAgent;
     }

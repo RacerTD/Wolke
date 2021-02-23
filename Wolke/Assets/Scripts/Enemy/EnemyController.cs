@@ -127,7 +127,7 @@ public class EnemyController : AbilityController
         Debug.DrawRay(viewPoint.position, (GameManager.Instance.PlayerController.transform.position - viewPoint.position).normalized * playerData.DistanceToPlayer, Color.green, enemyDataUpdateIntervall);
 
         RaycastHit[] hits = Physics.RaycastAll(viewPoint.position, GameManager.Instance.PlayerController.transform.position - viewPoint.position, forEnemyVisibleMask);
-        hits = hits.OrderBy(h => (h.point + viewPoint.position).magnitude).ToArray();
+        hits = hits.Where(c => c.collider.name != "Enemy").OrderBy(h => (h.point + viewPoint.position).magnitude).ToArray();
 
         return hits.OrderBy(h => (h.point - viewPoint.position).magnitude).ToArray().Select(hit => hit.collider.GetComponent<PlayerController>() != null).FirstOrDefault();
     }

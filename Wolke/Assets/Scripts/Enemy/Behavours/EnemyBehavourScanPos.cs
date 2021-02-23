@@ -8,8 +8,10 @@ public class EnemyBehavourScanPos : EnemyBehavourStep
 {
     public Vector3 PosFromWhereToScan;
     public NavMeshAgent NavMeshAgent;
-    public EnemyBehavourScanPos(Vector3 posFromWhereToScan, NavMeshAgent navMeshAgent, float time, bool isInterruptable = false) : base(time, isInterruptable)
+    public EnemyBehavourScanPos(Vector3 posFromWhereToScan, NavMeshAgent navMeshAgent, bool interrupts, float time, bool isInterruptable) : base(interrupts, time, isInterruptable)
     {
+        Debug.Log("Added scan");
+        Name = "Scan";
         PosFromWhereToScan = posFromWhereToScan;
         NavMeshAgent = navMeshAgent;
     }

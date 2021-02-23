@@ -5,8 +5,9 @@ using UnityEngine;
 [System.Serializable]
 public class EnemyBehavourWaitAtPos : EnemyBehavourStep
 {
-    public EnemyBehavourWaitAtPos(float time, bool isInterruptable = false) : base(time, isInterruptable)
+    public EnemyBehavourWaitAtPos(bool interrupts, float time, bool isInterruptable) : base(interrupts, time, isInterruptable)
     {
-
+        Name = "Wait";
+        Debug.Log("Added wait");
     }
 }

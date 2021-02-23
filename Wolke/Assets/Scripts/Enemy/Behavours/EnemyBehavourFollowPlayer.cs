@@ -8,8 +8,10 @@ public class EnemyBehavourFollowPlayer : EnemyBehavourStep
 {
     public PlayerController Player;
     public NavMeshAgent NavMeshAgent;
-    public EnemyBehavourFollowPlayer(PlayerController player, NavMeshAgent navMeshAgent, float time, bool isInterruptable = false) : base(time, isInterruptable)
+    public EnemyBehavourFollowPlayer(PlayerController player, NavMeshAgent navMeshAgent, bool interrupts, float time, bool isInterruptable) : base(interrupts, time, isInterruptable)
     {
+        Debug.Log("Added follow player");
+        Name = "Follow Player";
         Player = player;
         NavMeshAgent = navMeshAgent;
     }

@@ -33,7 +33,58 @@ public class WalkingEnemyController : EnemyController
         }
     }
     private NavMeshAgent navMeshAgent;
-    public List<EnemyBehavourStep> BehavourList = new List<EnemyBehavourStep>();
+
+    #region behavourList
+    [SerializeField] private List<EnemyBehavourStep> behavourList = new List<EnemyBehavourStep>();
+
+    private void AddStepToQueue(EnemyBehavourStep newStep)
+    {
+        List<EnemyBehavourStep> temp = new List<EnemyBehavourStep>();
+
+        if (newStep.Interrupts)
+        {
+            foreach (EnemyBehavourStep step in behavourList.Where(s => s.IsInterruptable))
+            {
+                step.Interrupt(gameObject);
+            }
+
+            foreach (EnemyBehavourStep step in behavourList.Where(s => !s.IsInterruptable))
+            {
+                temp.Add(step);
+            }
+        }
+        else
+        {
+            foreach (EnemyBehavourStep step in behavourList)
+            {
+                temp.Add(step);
+            }
+        }
+
+        temp.Add(newStep);
+
+        behavourList = temp;
+    }
+    #endregion
+
+    protected override void OnEnemyAlertStateChange(EnemyAlertState state)
+    {
+        switch (state)
+        {
+            case EnemyAlertState.Idle:
+                break;
+            case EnemyAlertState.Sus:
+                break;
+            case EnemyAlertState.Alerted:
+                //BehavourList.Add(new EnemyBehavourFollowPlayer(GameManager.Instance.PlayerController, navMeshAgent, true, 1f, false));
+                AddStepToQueue(new EnemyBehavourFollowPlayer(GameManager.Instance.PlayerController, navMeshAgent, true, 1f, false));
+                break;
+            default:
+                break;
+        }
+
+        base.OnEnemyAlertStateChange(state);
+    }
 
     protected override void Start()
     {
@@ -53,21 +104,24 @@ public class WalkingEnemyController : EnemyController
 
     private void UpdateEnemyBehavour()
     {
-        if (BehavourList.Count() <= 0)
+        if (behavourList.Count() <= 0)
         {
             GenerateEnemyBehavour();
         }
 
-        if (!BehavourList.First().Started)
+        if (behavourList.Count() > 0)
         {
-            BehavourList.First().StartBehavour(gameObject);
-        }
+            if (!behavourList.First().Started)
+            {
+                behavourList.First().StartBehavour(gameObject);
+            }
 
-        BehavourList.First().UpdateBehavour(gameObject);
+            behavourList.First().UpdateBehavour(gameObject);
 
-        if (BehavourList.First().RemainingTime < 0)
-        {
-            BehavourList.RemoveAt(0);
+            if (behavourList.First().RemainingTime < 0)
+            {
+                behavourList.RemoveAt(0);
+            }
         }
     }
 
@@ -78,19 +132,25 @@ public class WalkingEnemyController : EnemyController
         switch (EnemyAlertState)
         {
             case EnemyAlertState.Idle:
-                temp.Add(new EnemyBehavourWalkToPos(enemyPath.Positions[enemyPathIndex].Position.position, navMeshAgent, float.MaxValue, true));
-                temp.Add(new EnemyBehavourWaitAtPos(enemyPath.Positions[enemyPathIndex].WaitTimeAtPostion, true));
+                //temp.Add(new EnemyBehavourWalkToPos(enemyPath.Positions[enemyPathIndex].Position.position, navMeshAgent, false, float.MaxValue, true));
+                AddStepToQueue(new EnemyBehavourWalkToPos(enemyPath.Positions[enemyPathIndex].Position.position, navMeshAgent, false, float.MaxValue, true));
+                //temp.Add(new EnemyBehavourWaitAtPos(false, enemyPath.Positions[enemyPathIndex].WaitTimeAtPostion, true));
+                AddStepToQueue(new EnemyBehavourWaitAtPos(false, enemyPath.Positions[enemyPathIndex].WaitTimeAtPostion, true));
                 enemyPathIndex++;
                 break;
             case EnemyAlertState.Sus:
+                //temp.Add(new EnemyBehavourWaitAtPos(false, 3f, true));
+                AddStepToQueue(new EnemyBehavourWaitAtPos(false, enemyPath.Positions[enemyPathIndex].WaitTimeAtPostion, true));
                 break;
             case EnemyAlertState.Alerted:
+                //temp.Add(new EnemyBehavourFollowPlayer(GameManager.Instance.PlayerController, navMeshAgent, true, 1f, false));
+                AddStepToQueue(new EnemyBehavourFollowPlayer(GameManager.Instance.PlayerController, navMeshAgent, true, 1f, false));
                 break;
             default:
                 break;
         }
 
-        BehavourList.AddRange(temp);
+        //BehavourList.AddRange(temp);
     }
 
     private void ParticleColorUpdate()
