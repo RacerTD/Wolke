@@ -49,7 +49,7 @@ VisualEffect:
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 0.02
+      - m_Value: 0.03
         m_Name: Size
         m_Overridden: 1
       - m_Value: 0.001
@@ -79,6 +79,15 @@ VisualEffect:
       - m_Value: 0.5
         m_Name: Frequency
         m_Overridden: 1
+      - m_Value: 0.3
+        m_Name: Lifetime Min 1
+        m_Overridden: 1
+      - m_Value: 1
+        m_Name: Lifetime Max 1
+        m_Overridden: 1
+      - m_Value: 0
+        m_Name: Distance Mult
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
@@ -95,7 +104,7 @@ VisualEffect:
       m_Array: []
     m_Int:
       m_Array:
-      - m_Value: 2
+      - m_Value: 1
         m_Name: Lifetime Min
         m_Overridden: 1
       - m_Value: 3

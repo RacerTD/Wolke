@@ -106,7 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3184767825612518986}
   m_Layer: 0
-  m_Name: Pillar Inverted
+  m_Name: Pillar Edge
   m_TagString: Untagged
   m_Icon: {fileID: 2800000, guid: a00f4178a06117e47b65f097c47acbcb, type: 3}
   m_NavMeshLayer: 0

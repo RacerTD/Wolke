@@ -15,18 +15,19 @@ public static class PhysicsExtension
     /// <returns></returns>
     public static RaycastHit RaycastFirst(Vector3 origin, Vector3 direction, float maxDistance, int layerMask)
     {
+        /*
         RaycastHit[] hits = Physics.RaycastAll(origin, direction, maxDistance, layerMask);
 
         hits = hits.OrderBy(h => Vector3.Distance(h.point, origin)).ToArray();
 
         return hits.FirstOrDefault();
-
-        /*
+*/
+        
         RaycastHit hit;
 
         Physics.Raycast(origin, direction, out hit, maxDistance, layerMask);
 
         return hit;
-        */
+        
     }
 }
