@@ -9,6 +9,7 @@ public class GameManager : ManagerModule<GameManager>
     [SerializeField] private PlayerController playerPrefab;
     [HideInInspector] public PlayerController PlayerController;
     private PlayerSpawn playerStartSpawnPoint;
+    private RespawnPoint playerRespawnPoint;
     #endregion
 
     #region CurrentGameState
@@ -84,13 +85,18 @@ public class GameManager : ManagerModule<GameManager>
             Destroy(playerSpawn.gameObject);
     }
 
+    public void SetRespawnPoint(RespawnPoint point)
+    {
+        playerRespawnPoint = point;
+    }
+
     /// <summary>
     /// Resets the player to the spawn point
     /// </summary>
     public void ResetPlayerToSpawn()
     {
-        PlayerController.transform.position = playerStartSpawnPoint.transform.position;
-        PlayerController.transform.rotation = playerStartSpawnPoint.transform.rotation;
+        PlayerController.transform.position = playerRespawnPoint.transform.position;
+        PlayerController.transform.rotation = playerRespawnPoint.transform.rotation;
     }
 }
 
