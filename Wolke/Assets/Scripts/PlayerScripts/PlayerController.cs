@@ -96,6 +96,7 @@ public class PlayerController : AbilityController
         HandleMove();
     }
 
+    #region Move
     public void HandleMoveInput(InputAction.CallbackContext context)
     {
         isMoving = !context.canceled;
@@ -118,7 +119,9 @@ public class PlayerController : AbilityController
             //physicsbody.MovePosition(transform.position + MoveVector);
         }
     }
+    #endregion
 
+    #region View
     public void HandleViewInput(InputAction.CallbackContext context)
     {
         viewInputAction = context;
@@ -140,7 +143,9 @@ public class PlayerController : AbilityController
             Debug.DrawRay(controlledCamera.transform.position, controlledCamera.transform.forward, Color.red);
         }
     }
+    #endregion
 
+    #region Particles
     public void HandleParticleShootInput(InputAction.CallbackContext context)
     {
         if (context.canceled)
@@ -152,7 +157,9 @@ public class PlayerController : AbilityController
             ParticleManager.Instance.SetParticleGeneratorState(true);
         }
     }
+    #endregion
 
+    #region TestInputs
     public void HandleTestInput(InputAction.CallbackContext context)
     {
         IsDead = true;
@@ -164,7 +171,9 @@ public class PlayerController : AbilityController
         GameManager.Instance.ResetPlayerToSpawn();
         ParticleManager.Instance.PlayerIsDead(0f);
     }
+    #endregion
 
+    #region Input Device things
     /// <summary>
     /// Happens when the input device changes
     /// </summary>
@@ -203,4 +212,5 @@ public class PlayerController : AbilityController
             playerAbility.OnInputDeviceReconnected(input);
         }
     }
+    #endregion
 }

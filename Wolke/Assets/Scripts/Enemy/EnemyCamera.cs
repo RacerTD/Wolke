@@ -24,7 +24,7 @@ public class EnemyCamera : EnemyController
         base.Update();
     }
 
-    protected override void OnEnemyAlertStateChange(EnemyAlertState state)
+    protected override void OnEnemyAlertStateChange(EnemyAlertState state, EnemyAlertState lastState)
     {
         switch (state)
         {
@@ -38,6 +38,6 @@ public class EnemyCamera : EnemyController
                 break;
         }
 
-        base.OnEnemyAlertStateChange(state);
+        base.OnEnemyAlertStateChange(state, lastState);
     }
 }

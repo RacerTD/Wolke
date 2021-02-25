@@ -18,13 +18,13 @@ public class EnemyController : AbilityController
             if (value != EnemyAlertState)
             {
                 timeInAltertState = 0f;
-                OnEnemyAlertStateChange(value);
+                OnEnemyAlertStateChange(value, enemyAlertState);
                 enemyAlertState = value;
             }
         }
     }
 
-    protected virtual void OnEnemyAlertStateChange(EnemyAlertState state)
+    protected virtual void OnEnemyAlertStateChange(EnemyAlertState state, EnemyAlertState lastState)
     {
         switch (state)
         {
@@ -115,6 +115,7 @@ public class EnemyController : AbilityController
         }
     }
 
+    #region Update Player Data
     private void UpdatePlayerData(ref PlayerData data)
     {
         data.DistanceToPlayer = Vector3.Distance(GameManager.Instance.PlayerController.transform.position, transform.position);
@@ -150,6 +151,7 @@ public class EnemyController : AbilityController
     {
         return data.DistanceToPlayer < maxSightingSistance && data.HasDirectSight && data.PlayerInDetectionCollider;
     }
+    #endregion
 
     public void SetDataDetectionCollider(bool value)
     {

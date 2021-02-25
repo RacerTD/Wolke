@@ -12,6 +12,8 @@ public class ScriptableSound : ScriptableObject
     public bool BypassListenerEffects = false;
     public bool BypassReverbZones = false;
     [Tooltip("0 = High, 256 = Low")] [Range(0, 256)] public int Priority = 100;
+
+    #region Volume
     [SerializeField] [Range(0, 1)] private float volume = 1f;
     [SerializeField] [Range(0, 1)] private float volumeRandom = 0f;
 
@@ -19,12 +21,17 @@ public class ScriptableSound : ScriptableObject
     /// Returns the Volume that the clip will have
     /// </summary>
     public float Volume() => Mathf.Clamp(volume + Random.Range(-volumeRandom, volumeRandom), 0f, 1f);
+    #endregion
+
+    #region Pitch
     [SerializeField] [Range(-3, 3)] private float pitch = 0f;
     [SerializeField] [Range(0, 3)] private float randomPitch = 0f;
     /// <summary>
     /// Returns the Pitch that the clip will have
     /// </summary>
     public float Pitch() => Mathf.Clamp(pitch + Random.Range(-randomPitch, randomPitch), -3f, 3f);
+    #endregion
+
     [Tooltip("-1 = Left, 1 = Right")] [Range(-1, 1)] public float StereoPan = 0f;
     [Tooltip("0 = no 3D Sound, 1 = full 3D Sound")] [Range(0, 1)] public float SpacialBlend = 0.8f;
     [Range(0, 1.1f)] public float ReverbZoneMix = 0f;

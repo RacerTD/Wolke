@@ -7,6 +7,7 @@ using UnityEngine.VFX;
 
 public class WalkingEnemyController : EnemyController
 {
+    public ScriptableSound SusSound;
     [Header("Particles")]
     private float IdleFloat = 0f;
     private float SusFloat = 0f;
@@ -67,7 +68,7 @@ public class WalkingEnemyController : EnemyController
     }
     #endregion
 
-    protected override void OnEnemyAlertStateChange(EnemyAlertState state)
+    protected override void OnEnemyAlertStateChange(EnemyAlertState state, EnemyAlertState lastState)
     {
         switch (state)
         {
@@ -83,7 +84,12 @@ public class WalkingEnemyController : EnemyController
                 break;
         }
 
-        base.OnEnemyAlertStateChange(state);
+        if (state == EnemyAlertState.Sus && lastState == EnemyAlertState.Idle && SusSound != null)
+        {
+            AudioManager.Instance.PlaySound(SusSound, gameObject);
+        }
+
+        base.OnEnemyAlertStateChange(state, lastState);
     }
 
     protected override void Start()
@@ -102,6 +108,9 @@ public class WalkingEnemyController : EnemyController
         base.Update();
     }
 
+    /// <summary>
+    /// Updates the current behavior
+    /// </summary>
     private void UpdateEnemyBehavour()
     {
         if (behavourList.Count() <= 0)
@@ -125,6 +134,9 @@ public class WalkingEnemyController : EnemyController
         }
     }
 
+    /// <summary>
+    /// Generates a new behavior if none exists
+    /// </summary>
     private void GenerateEnemyBehavour()
     {
         List<EnemyBehavourStep> temp = new List<EnemyBehavourStep>();
@@ -153,6 +165,9 @@ public class WalkingEnemyController : EnemyController
         //BehavourList.AddRange(temp);
     }
 
+    /// <summary>
+    /// Changes the color of the particles surrounding the enemy
+    /// </summary>
     private void ParticleColorUpdate()
     {
         switch (EnemyAlertState)
