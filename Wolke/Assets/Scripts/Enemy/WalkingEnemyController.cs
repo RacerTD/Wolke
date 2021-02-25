@@ -8,6 +8,7 @@ using UnityEngine.VFX;
 public class WalkingEnemyController : EnemyController
 {
     public ScriptableSound SusSound;
+    public ScriptableSound AlertedSound;
     [Header("Particles")]
     private float IdleFloat = 0f;
     private float SusFloat = 0f;
@@ -34,6 +35,10 @@ public class WalkingEnemyController : EnemyController
         }
     }
     private NavMeshAgent navMeshAgent;
+    [Header("Speeds")]
+    [SerializeField] private float idleSpeed = 3f;
+    [SerializeField] private float susSpeed = 5f;
+    [SerializeField] private float alertedSpeed = 6f;
 
     #region behavourList
     [SerializeField] private List<EnemyBehavourStep> behavourList = new List<EnemyBehavourStep>();
@@ -73,10 +78,13 @@ public class WalkingEnemyController : EnemyController
         switch (state)
         {
             case EnemyAlertState.Idle:
+                navMeshAgent.speed = idleSpeed;
                 break;
             case EnemyAlertState.Sus:
+                navMeshAgent.speed = susSpeed;
                 break;
             case EnemyAlertState.Alerted:
+                navMeshAgent.speed = alertedSpeed;
                 //BehavourList.Add(new EnemyBehavourFollowPlayer(GameManager.Instance.PlayerController, navMeshAgent, true, 1f, false));
                 AddStepToQueue(new EnemyBehavourFollowPlayer(GameManager.Instance.PlayerController, navMeshAgent, true, 1f, false));
                 break;
@@ -87,6 +95,11 @@ public class WalkingEnemyController : EnemyController
         if (state == EnemyAlertState.Sus && lastState == EnemyAlertState.Idle && SusSound != null)
         {
             AudioManager.Instance.PlaySound(SusSound, gameObject);
+        }
+
+        if (state == EnemyAlertState.Alerted && lastState == EnemyAlertState.Sus && AlertedSound != null)
+        {
+            AudioManager.Instance.PlaySound(AlertedSound, gameObject);
         }
 
         base.OnEnemyAlertStateChange(state, lastState);
