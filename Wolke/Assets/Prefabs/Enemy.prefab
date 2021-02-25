@@ -303,8 +303,12 @@ MonoBehaviour:
   timeAlertedTilSus: 5
   timeSusTilIdle: 6
   SusSound: {fileID: 11400000, guid: 9799ecc58fdbcab4f99e529b26d6d718, type: 2}
+  AlertedSound: {fileID: 11400000, guid: 441630e2064f22a439a54be1a007fdde, type: 2}
   ColorLerpMult: 1
   enemyPath: {fileID: 0}
+  idleSpeed: 1.6
+  susSpeed: 0.75
+  alertedSpeed: 2.5
   behavourList: []
 --- !u!64 &4252748395325265095
 MeshCollider:

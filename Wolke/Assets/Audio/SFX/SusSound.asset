@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SusSound
   m_EditorClassIdentifier: 
   AudioClips:
-  - {fileID: 8300000, guid: b8d8b10c1e892874ba7465026ba545d5, type: 3}
+  - {fileID: 8300000, guid: f7c0780b36ab0d0429a513a5b2282dea, type: 3}
   Output: {fileID: 24300002, guid: e2402fbf774847f4d9cf26f0834d1358, type: 2}
   BypassEffects: 0
   BypassListenerEffects: 0
