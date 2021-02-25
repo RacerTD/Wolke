@@ -47,6 +47,14 @@ public class PlayAudio : MonoBehaviour, IActivatable
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<PlayerController>() != null)
+        {
+            Activate();
+        }
+    }
+
     public enum SoundLocation
     {
         [Tooltip("Plays on this object")] Here,

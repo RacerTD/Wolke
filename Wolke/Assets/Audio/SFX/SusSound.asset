@@ -21,13 +21,13 @@ MonoBehaviour:
   Priority: 100
   volume: 1
   volumeRandom: 0
-  pitch: 0
+  pitch: 1
   randomPitch: 0
   StereoPan: 0
-  SpacialBlend: 0.8
-  ReverbZoneMix: 0
+  SpacialBlend: 0
+  ReverbZoneMix: 1
   DopplerLevel: 1
-  Spread: 90
-  VolumeRollOff: 0
-  MinDistance: 1
-  MaxDistance: 100
+  Spread: 0
+  VolumeRollOff: 1
+  MinDistance: 0
+  MaxDistance: 1000
