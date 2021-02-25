@@ -169,7 +169,7 @@ public class WalkingEnemyController : EnemyController
                 break;
             case EnemyAlertState.Alerted:
                 //temp.Add(new EnemyBehavourFollowPlayer(GameManager.Instance.PlayerController, navMeshAgent, true, 1f, false));
-                AddStepToQueue(new EnemyBehavourFollowPlayer(GameManager.Instance.PlayerController, navMeshAgent, true, 1f, false));
+                AddStepToQueue(new EnemyBehavourFollowPlayer(GameManager.Instance.PlayerController, navMeshAgent, true, 0.5f, false));
                 break;
             default:
                 break;

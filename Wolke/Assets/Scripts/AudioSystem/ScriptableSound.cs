@@ -24,7 +24,7 @@ public class ScriptableSound : ScriptableObject
     #endregion
 
     #region Pitch
-    [SerializeField] [Range(-3, 3)] private float pitch = 0f;
+    [SerializeField] [Range(-3, 3)] private float pitch = 1f;
     [SerializeField] [Range(0, 3)] private float randomPitch = 0f;
     /// <summary>
     /// Returns the Pitch that the clip will have

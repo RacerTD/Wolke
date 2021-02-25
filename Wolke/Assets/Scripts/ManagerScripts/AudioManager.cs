@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Reflection;
 
 //TODO:
 //Background Music System
@@ -14,6 +15,7 @@ public class AudioManager : ManagerModule<AudioManager>
 {
     private List<AudioSource> audioSources = new List<AudioSource>();
     private List<AudioSource> audioObjects = new List<AudioSource>();
+    public AudioSource StandardSource;
 
     private void Update()
     {
