@@ -83,6 +83,9 @@ public class EnemyController : AbilityController
         base.Update();
     }
 
+    /// <summary>
+    /// Calculates the current enemy alert state
+    /// </summary>
     protected virtual void CalculateEnemyAlertState()
     {
         switch (EnemyAlertState)
@@ -153,6 +156,10 @@ public class EnemyController : AbilityController
     }
     #endregion
 
+    /// <summary>
+    /// Sets the current detection collider or viewcone
+    /// </summary>
+    /// <param name="value"></param>
     public void SetDataDetectionCollider(bool value)
     {
         playerData.PlayerInDetectionCollider = value;

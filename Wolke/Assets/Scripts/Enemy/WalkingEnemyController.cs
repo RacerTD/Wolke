@@ -43,6 +43,10 @@ public class WalkingEnemyController : EnemyController
     #region BehaviorList
     [SerializeField] private List<EnemyBehaviourStep> behaviourList = new List<EnemyBehaviourStep>();
 
+    /// <summary>
+    /// Adds a step to the beahviour queue
+    /// </summary>
+    /// <param name="newStep"></param>
     private void AddStepToQueue(EnemyBehaviourStep newStep)
     {
         List<EnemyBehaviourStep> temp = new List<EnemyBehaviourStep>();
