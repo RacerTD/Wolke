@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class EnemyBehavourWaitAtPos : EnemyBehavourStep
+public class EnemyBehaviourWaitAtPos : EnemyBehaviourStep
 {
-    public EnemyBehavourWaitAtPos(bool interrupts, float time, bool isInterruptable) : base(interrupts, time, isInterruptable)
+    public EnemyBehaviourWaitAtPos(bool interrupts, float time, bool isInterruptable) : base(interrupts, time, isInterruptable)
     {
         Name = "Wait";
         Debug.Log("Added wait");

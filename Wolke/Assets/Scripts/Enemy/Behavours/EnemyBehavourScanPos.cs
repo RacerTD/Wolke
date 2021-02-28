@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [System.Serializable]
-public class EnemyBehavourScanPos : EnemyBehavourStep
+public class EnemyBehaviourScanPos : EnemyBehaviourStep
 {
     public Vector3 PosFromWhereToScan;
     public NavMeshAgent NavMeshAgent;
-    public EnemyBehavourScanPos(Vector3 posFromWhereToScan, NavMeshAgent navMeshAgent, bool interrupts, float time, bool isInterruptable) : base(interrupts, time, isInterruptable)
+    public EnemyBehaviourScanPos(Vector3 posFromWhereToScan, NavMeshAgent navMeshAgent, bool interrupts, float time, bool isInterruptable) : base(interrupts, time, isInterruptable)
     {
         Debug.Log("Added scan");
         Name = "Scan";
@@ -16,19 +16,19 @@ public class EnemyBehavourScanPos : EnemyBehavourStep
         NavMeshAgent = navMeshAgent;
     }
 
-    public override void StartBehavour(GameObject enemy)
+    public override void StartBehaviour(GameObject enemy)
     {
         NavMeshAgent.destination = PosFromWhereToScan;
-        base.StartBehavour(enemy);
+        base.StartBehaviour(enemy);
     }
 
-    public override void UpdateBehavour(GameObject enemy)
+    public override void UpdateBehaviour(GameObject enemy)
     {
         if (NavMeshAgent.remainingDistance <= 1f)
         {
             //DO SCAN
         }
-        base.UpdateBehavour(enemy);
+        base.UpdateBehaviour(enemy);
     }
 
     public override bool Ends(GameObject enemy)

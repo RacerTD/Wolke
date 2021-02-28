@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class EnemyBehavourStep
+public class EnemyBehaviourStep
 {
-    public string Name = "Empty";
+    [HideInInspector] public string Name = "Empty";
     public bool Interrupts = false;
     public float RemainingTime = 0f;
     public bool IsInterruptable = false;
     public bool Started = false;
 
-    public EnemyBehavourStep(bool interrupts, float remainingTime, bool isInterruptable)
+    public EnemyBehaviourStep(bool interrupts, float remainingTime, bool isInterruptable)
     {
         Interrupts = interrupts;
         RemainingTime = remainingTime;
@@ -19,33 +19,33 @@ public class EnemyBehavourStep
     }
 
     /// <summary>
-    /// Happens at the start of the behavour
+    /// Happens at the start of the Behavior
     /// </summary>
     /// <param name="enemy"></param>
-    public virtual void StartBehavour(GameObject enemy)
+    public virtual void StartBehaviour(GameObject enemy)
     {
         Started = true;
     }
 
     /// <summary>
-    /// Happens during the entirety of the behavour
+    /// Happens during the entirety of the Behavior
     /// </summary>
     /// <param name="enemy"></param>
-    public virtual void UpdateBehavour(GameObject enemy)
+    public virtual void UpdateBehaviour(GameObject enemy)
     {
         RemainingTime -= Time.deltaTime;
 
         if (Ends(enemy))
         {
-            EndBehavour(enemy);
+            EndBehaviour(enemy);
         }
     }
 
     /// <summary>
-    /// Happens once at the end of the behavour
+    /// Happens once at the end of the Behavior
     /// </summary>
     /// <param name="enemy"></param>
-    public virtual void EndBehavour(GameObject enemy)
+    public virtual void EndBehaviour(GameObject enemy)
     {
         RemainingTime = float.MinValue;
     }
@@ -58,7 +58,7 @@ public class EnemyBehavourStep
     {
         if (IsInterruptable)
         {
-            EndBehavour(enemy);
+            EndBehaviour(enemy);
         }
     }
 

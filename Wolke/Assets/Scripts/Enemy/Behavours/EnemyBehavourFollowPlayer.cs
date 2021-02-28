@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [System.Serializable]
-public class EnemyBehavourFollowPlayer : EnemyBehavourStep
+public class EnemyBehaviourFollowPlayer : EnemyBehaviourStep
 {
     public PlayerController Player;
     public NavMeshAgent NavMeshAgent;
-    public EnemyBehavourFollowPlayer(PlayerController player, NavMeshAgent navMeshAgent, bool interrupts, float time, bool isInterruptable) : base(interrupts, time, isInterruptable)
+    public EnemyBehaviourFollowPlayer(PlayerController player, NavMeshAgent navMeshAgent, bool interrupts, float time, bool isInterruptable) : base(interrupts, time, isInterruptable)
     {
         Debug.Log("Added follow player");
         Name = "Follow Player";
@@ -16,11 +16,11 @@ public class EnemyBehavourFollowPlayer : EnemyBehavourStep
         NavMeshAgent = navMeshAgent;
     }
 
-    public override void UpdateBehavour(GameObject enemy)
+    public override void UpdateBehaviour(GameObject enemy)
     {
         NavMeshAgent.destination = Player.transform.position;
 
-        base.UpdateBehavour(enemy);
+        base.UpdateBehaviour(enemy);
     }
 
     public override bool Ends(GameObject enemy)

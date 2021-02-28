@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [System.Serializable]
-public class EnemyBehavourWalkToPos : EnemyBehavourStep
+public class EnemyBehaviourWalkToPos : EnemyBehaviourStep
 {
     public Vector3 Pos = Vector3.zero;
     public NavMeshAgent NavMeshAgent;
-    public EnemyBehavourWalkToPos(Vector3 pos, NavMeshAgent navMeshAgent, bool interrupts, float time, bool isInterruptable) : base(interrupts, time, isInterruptable)
+    public EnemyBehaviourWalkToPos(Vector3 pos, NavMeshAgent navMeshAgent, bool interrupts, float time, bool isInterruptable) : base(interrupts, time, isInterruptable)
     {
         Name = "Walk to pos";
         Debug.Log("Added walk to pos");
@@ -16,14 +16,14 @@ public class EnemyBehavourWalkToPos : EnemyBehavourStep
         NavMeshAgent = navMeshAgent;
     }
 
-    public override void StartBehavour(GameObject enemy)
+    public override void StartBehaviour(GameObject enemy)
     {
         if (enemy.GetComponent<NavMeshAgent>() != null)
         {
             enemy.GetComponent<NavMeshAgent>().destination = Pos;
         }
 
-        base.StartBehavour(enemy);
+        base.StartBehaviour(enemy);
     }
 
     public override bool Ends(GameObject enemy)
